@@ -1,0 +1,72 @@
+extends layout
+
+block css
+   link(rel='stylesheet' href='/stylesheets/jquery-ui/jquery-ui.css')
+   link(rel='stylesheet' href='/stylesheets/datatables/media/css/jquery.dataTables.css')
+   link(rel='stylesheet' href='/stylesheets/tokenfield/css/bootstrap-tokenfield.css')
+   script(src='/stylesheets/datatables/media/js/jquery.js')
+   script.
+      if (#{show}) {
+         $(document).ready(function(){
+            $('#modalTags').modal({backdrop: 'static', show: true});
+         });
+      }
+
+
+block content
+   form.form-horizontal(role="form" id="formTags" method="post")
+      div.form-group
+         label.control-label.col-sm-2(for="tags") Tags:
+         div.col-sm-10
+            div.input-group
+               input#searchTags.form-control.button-click(type="text" name="searchTags" placeholder="Insira uma tag para pesquisar!!")
+               input#choosenButton(type="hidden" name="choosenButton" value="")
+               span.input-group-btn
+                  button#buttonOR.btn.btn-default Ou
+                  button#buttonAND.btn.btn-default E
+   div.row
+      div.col-sm-offset-2.col-sm-10
+         table#tableTags.display
+            tbody
+               if results
+                  each result in results
+                     tr
+                        td #{result.codigo}
+                        td #{result.nota.substring(0,150).replace(/(<([^>]+)>)/ig,' ')} <div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em> #{result.tags} </div>
+                        td
+                        td
+   #modalTags.modal
+      .modal-dialog
+         .modal-content
+            .modal-header
+               button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+               h4.modal-title Mensagem:
+            .modal-body
+               p #{message}
+            .modal-footer
+               button.btn.btn-default(type="button" data-dismiss="modal") Fechar
+block script
+   script(src='/stylesheets/tokenfield/bootstrap-tokenfield.js')
+   script(src='/javascripts/componentsInit/tokenfields.js')
+   script(src='/stylesheets/datatables/media/js/jquery.dataTables.js')
+   script(src='/javascripts/componentsInit/tables.js')
+   script.
+      $(window).on('load',function(event){
+          $("#searchTags").focus();
+      });
+
+      /*Identifies the search*/
+      $('#buttonOR').on('click', function(event){
+          $("#choosenButton").val("OR");
+      });
+
+      /*Identifies the search*/
+      $('#buttonAND').on('click', function(event){
+          $("#choosenButton").val("AND");
+      });
+
+      $("#searchTags").on('keyup',function(event){
+         var searchTags = $(this).val().replace(/[^a-zA-Z0-9\-]+/g,'');
+         $(this).val(searchTags.toUpperCase());
+      });
+

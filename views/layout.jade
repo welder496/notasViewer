@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    title= title
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='/stylesheets/bootstrap-3.3.4/css/bootstrap.min.css')
+    block css
+  body
+    div.container
+      nav.navbar.navbar-default
+         div.container-fluid
+            div.navbar-header
+               a.navbar-brand(href="/index") Notas
+            div
+               ul.nav.navbar-nav
+                  li: a(href="/insert") Inserir
+                  li: a(href="/searchForCodigo" ) Pesquisa por Código
+                  li: a(href="/searchForTags" ) Pesquisa por Tag
+                  li: a(href="/searchForNota") Pesquisa por Nota
+                  li: a(href="/help") Ajuda
+      block content
+    script(src='/stylesheets/jquery/jquery-2.1.3.min.js')
+    script(src='/stylesheets/jquery-ui/jquery-ui.js')
+    script(src='/stylesheets/bootstrap-3.3.4/js/bootstrap.min.js')
+    script(src='/stylesheets/bootbox/bootbox.min.js')
+    script(src='/javascripts/components/changeNavBar.js')
+    block script

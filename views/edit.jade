@@ -1,0 +1,97 @@
+extends layout
+
+block css
+   link(rel='stylesheet', href='/stylesheets/tokenfield/css/bootstrap-tokenfield.css')
+   link(rel='stylesheet', href='/stylesheets/jquery-ui/jquery-ui.css')
+   link(rel='stylesheet', href='/stylesheets/editors5/dist/bootstrap3-wysihtml5.css')
+   link(rel='stylesheet', href='/stylesheets/editors5/dist/bootstrap3-wysihtml5-editor.css')
+   script(src='/stylesheets/datatables/media/js/jquery.js')
+   script.
+      if (#{show}) {
+         $(document).on('ready', function(){
+            $('#modalEdit').modal({backdrop: 'static', show: true});
+         });
+      }
+
+block content
+   form.form-horizontal(role="form" method="post" enctype="multipart/formdata")
+      div.form-group
+         label.control-label.col-sm-2(for="codigo") Código:
+         div.col-sm-2
+            input#editCodigo.form-control(type="text" placeholder="Insira um número" readonly name="codigo" value="#{codigo}")
+
+      div.form-group
+         label.control-label.col-sm-2(for="nota") Nota:
+         div.col-sm-10
+            textarea#editNota.form-control(rows="20" name="nota" placeholder="Escreva uma nota ou descrição aqui!!") #{nota}
+
+      #listaArquivos.form-group
+         label.control-label.col-sm-2(for='arquivos') Arquivo(s) cadastrado(s):
+         #itensArquivos.col-sm-10
+            if (arquivos != '')
+               for arquivo, i in arquivos
+                  div(id=i)
+                     a(id=i) #{arquivo}
+                     span &nbsp&nbsp
+                     button.btn.btn-default.btn-xs(id=i type="submit" ) -
+
+      div.form-group
+         label.control-label.col-sm-2(for='arquivos') Arquivo(s):
+         div.col-sm-4
+            input#editArquivos.form-control(type="file" name="file" placeholder="Insira um arquivo aqui!!" multiple)
+
+      div.form-group
+         label.control-label.col-sm-2(for="tags") Tags:
+         div.col-sm-10
+            input#editTags.form-control(type="text" name="tags" placeholder="Insira tags aqui!!" value="#{tags}")
+
+      #modalEdit.modal
+         .modal-dialog
+            .modal-content
+               .modal-header
+                  button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+                  h4.modal-title Mensagem:
+               .modal-body
+                  p #{message}
+               .modal-footer
+                  button.btn.btn-default(type="button" data-dismiss="modal") Fechar
+
+      div.form-group
+         label.control-label.col-sm-2
+            button#editEnviar.btn.btn-default Salvar
+         input#comando.form-control(type="hidden" name="comando" value="post")
+         //input#codigo.form-control(type="hidden" name="codigo" value="#{codigo}")
+         input#versao.form-control(type="hidden" name="versao" value="#{versao}")
+
+
+   //form.form-horizontal(id="form-data" role="form" action="edit" method="post")
+      div.form-group
+         div.col-sm-offset-2.col-sm-10
+            button#editEnviar.btn.btn-default Salvar
+            input#comando.form-control(type="hidden" name="comando" value="post")
+            input#codigo.form-control(type="hidden" name="codigo" value="#{codigo}")
+            input#versao.form-control(type="hidden" name="versao" value="#{versao}")
+block script
+   script(src='/stylesheets/tokenfield/bootstrap-tokenfield.js')
+   script(src='/javascripts/componentsInit/tokenfields.js')
+   script(src='/stylesheets/editors5/dist/wysihtml5x-toolbar.min.js')
+   script(src='/stylesheets/editors5/dist/bootstrap3-wysihtml5.js')
+   script(src='/javascripts/componentsInit/textAreaEditor.js')
+   script.
+      $(document).on('click','button.btn.btn-default.btn-xs', function(event){
+         var i = $(this).attr('id');
+         $('div#'+i).remove();
+         var count = $('#itensArquivos').children().length;
+         if (count == 0)
+            $('#listaArquivos').attr('style','display: none');
+         event.preventDefault();
+      });
+
+      $(document).on('ready', function(){
+         var count = $('#itensArquivos').children().length;
+         if (count == 0)
+            $('#listaArquivos').attr('style','display: none');
+         else
+            $('#listaArquivos').attr('style','display: block');
+      });
+

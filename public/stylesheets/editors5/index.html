@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="utf-8">
+
+    <title>bootstrap-wysihtml5</title>
+
+    <link rel="stylesheet" type="text/css" href="lib/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="src/bootstrap3-wysihtml5.css" />
+    <script src="dist/wysihtml5x-toolbar.min.js"></script>
+    <script src="lib/js/jquery-1.11.1.min.js"></script>
+    <script src="lib/js/bootstrap.min.js"></script>
+    <script src="src/bootstrap3-wysihtml5.js"></script>
+
+    <style type="text/css" media="screen">
+        .btn.jumbo {
+            font-size: 20px;
+            font-weight: normal;
+            padding: 14px 24px;
+            margin-right: 10px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero-unit" style="margin-top:40px">
+        <h1 style="font-size:58px">bootstrap3-wysihtml5 <small>Simple, beautiful wysiwyg editor</small></h1>
+        <hr/>
+        <textarea class="textarea form-control" placeholder="Enter text ..." style="width: 810px; height: 200px"></textarea>
+    </div>
+
+    <div class="row">
+        <div class="span6">
+            <h2>About</h2>
+            <p>
+                bootstrap3-wysihtml5 is a javascript plugin that makes it easy to create simple, beautiful wysiwyg editors with the help of <a href="https://github.com/Edicy/wysihtml5">wysihtml5x</a> and <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>
+            </p>
+            <p>
+                It based on <a href="https://github.com/schnawel007/bootstrap3-wysihtml5/">https://github.com/schnawel007/bootstrap3-wysihtml5/</a>
+            </p>
+
+            <p style="text-align:center; margin-top:20px">
+                <a class="btn btn-large btn-primary jumbo" href="https://github.com/arvigeus/bootstrap3-wysihtml5">View project on Github</a>
+            </p>
+        </div>
+        <div class="span6" >
+            <h2>Usage</h2>
+
+            <p>
+                <pre class="prettyprint linenums">
+$('.textarea').wysihtml5({stylesheets: ["path/to/bootstrap3-wysihtml5-editor.css"]});
+//or
+$('.div').wysihtml5();
+                </pre>
+            </p>
+
+            <p>Stylesheets are needed to be included both as editor's parameter and page stylesheet</p>
+
+        </div>
+        <div class="span6" >
+            <h2>Toolbar options</h2>
+            <p>
+                <pre class="prettyprint linenums">
+$('.textarea').wysihtml5({
+    "font-styles":  true, //Font styling, e.g. h1, h2, etc
+    "color":        true, //Button to change color of font
+    "emphasis":     true, //Italics, bold, etc
+    "textAlign":    true, //Text align (left, right, center, justify)
+    "lists":        true, //(Un)ordered lists, e.g. Bullets, Numbers
+    "blockquote":   true, //Button to insert quote
+    "link":         true, //Button to insert a link
+    "table":        true, //Button to insert a table
+    "image":        true, //Button to insert an image
+    "video":        true, //Button to insert video (YouTube, Vimeo, Metacafe and DailyMotion supported)
+    "html":         false //Button which allows you to edit the generated HTML
+});
+                </pre>
+            </p>
+
+        </div>
+        <div class="span6">
+            <h2>Additional options</h2>
+            <p>
+                Original config options could be found <a href="https://github.com/xing/wysihtml5/wiki/Configuration">here</a>. Additional options:
+            </p>
+            <p>
+                <pre class="prettyprint linenums">
+$('.textarea').wysihtml5({
+    "useParserRules":  false, //Do not use any parser rules to sinitarize code (dangerious!)
+});
+                </pre>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.textarea').wysihtml5({html:true, stylesheets: ["dist/bootstrap3-wysihtml5-editor.min.css"]});
+</script>
+
+</body>
+</html>

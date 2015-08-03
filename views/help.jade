@@ -1,0 +1,48 @@
+extends layout
+
+block css
+   link(rel='stylesheet', href='/stylesheets/tokenfield/css/bootstrap-tokenfield.css')
+   link(rel='stylesheet', href='/stylesheets/jquery-ui/jquery-ui.css')
+   link(rel='stylesheet', href='/stylesheets/editors/src/bootstrap-wysihtml5.css')
+   link(rel='stylesheet', href='/stylesheets/editors/lib/css/bootstrap3-wysiwyg5-color.css')
+
+block content
+   div.panel.panel-default
+      div.panel-heading
+         p <strong>Cadastrando uma Nota</strong>
+      div.panel-body
+         p <strong>Código:</strong> O sistema cadastra uma nova nota por meio de um código composto de:
+         ul
+            li Letras e números que podem ser intercalados com hiféns;
+            li Exemplo(s):
+            ul
+               li <strong>AAAA-0909</strong>
+               li <strong>ABABAB-01</strong>
+               li <strong>ABC-917508</strong>
+            li Não há tamanho definido para o código, mas é desejável que tenha até oito caracteres (sem incluir o hifén);
+         p <strong>Nota:</strong> Existe um editor de texto que permite escrever textos com inclusão de listas;
+         p <strong>Arquivos:</strong> O sistema permite incluir quantos arquivos forem necessários. Na inclusão não aparecerá a listagem dos arquivos, somente na edição;
+         p <strong>Tags:</strong> As tags são compostas de textos pequenos que permitem associá-las ao conteúdo. Ao terminar de digitar uma tag, basta apertar a tecla
+            <strong>ENTER</strong> ou a tecla <strong>TAB</strong> que uma nova tag seja adicionada;
+         p <strong>A nota será cadastrada somente se todos os campos estiverem preenchidos</strong>;
+   div.panel.panel-default
+      div.panel-heading
+         p <strong>Buscando uma Nota</strong>
+      div.panel-body
+         p O sistema possui três modos de consultas (pesquisa):
+         ul
+            li Pesquisa por Código;
+            li Pesquisa por Tag;
+            li Pesquisa por Nota;
+         p Em todas as consultas o comportamento padrão é aparecer os últimos 28 registros cadastrados. Eles são ordenados pela data do último registro
+            cadastrado no sistema, tal como é feito em um <strong>blog</strong>. A grade (<strong><em>grid</em></strong>) em que aparecem os dados são limitados a sete registros por vez!!
+         p <strong>Pesquisa por Código:</strong> Pesquisa as notas pelo código;
+         p <strong>Pesquisa por Tag:</strong> Pesquisa as tags associadas às notas, mesmo que as mesmas não estejam completas. Pode-se pesquisar com <strong>E</strong> ou <strong>OU</strong>, verificando se existem as tags em conjunto ou se existe pelo menos uma delas associada com uma Nota.
+         p <strong>Pesquisa por Nota:</strong> Pesquisa trechos que existem nas notas (descrição da Nota);
+         p O resultado de cada pesquisa apresenta os registros (em quantidade ilimitada). Cada resultado apresenta, além das informações, um botão para edição e outro para exclusão.
+   div.panel.panel-default
+      div.panel-heading
+         p <strong>Editando uma Nota</strong>
+      div.panel-body
+         p A edição é realizada em uma tela com as mesmas características da tela de inclusão. A única diferença reside na listagem de arquivos cadastrados, que podem ser excluídos a qualquer momento.
+         p

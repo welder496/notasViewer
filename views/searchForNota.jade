@@ -1,0 +1,70 @@
+extends layout
+
+block css
+   link(rel='stylesheet' href='/stylesheets/jquery-ui/jquery-ui.css')
+   link(rel='stylesheet' href='/stylesheets/datatables/media/css/jquery.dataTables.css')
+   script(src='/stylesheets/datatables/media/js/jquery.js')
+   script.
+      if (#{show}) {
+         $(document).ready(function(){
+            $('#modalNota').modal({backdrop: 'static', show: true});
+         });
+      }
+
+
+block content
+   form.form-horizontal(role="form" id="formNota" method="post")
+      div.form-group
+         label.control-label.col-sm-2(for="nota") Nota:
+         div.col-sm-10
+            div.input-group
+               input#searchNota.form-control(type="text" name="searchNota" placeholder="Insira o trecho de uma nota")
+               span.input-group-btn
+                  button#buttonNota.btn.btn-default
+                     span.glyphicon.glyphicon-search
+   div.row
+      div.col-sm-offset-2.col-sm-10
+         table#tableNota.display
+            tbody
+               if results
+                  each result in results
+                     tr
+                        td #{result.codigo}
+                        td #{result.nota.substring(0,150).replace(/(<([^>]+)>)/ig,' ')} <div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em> #{result.tags} </div>
+                        td
+                        td
+   #modalNota.modal
+      .modal-dialog
+         .modal-content
+            .modal-header
+               button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+               h4.modal-title Mensagem:
+            .modal-body
+               p #{message}
+            .modal-footer
+               button.btn.btn-default(type="button" data-dismiss="modal") Fechar
+
+block script
+   script(src='/stylesheets/datatables/media/js/jquery.dataTables.js')
+   script(src='/javascripts/componentsInit/tables.js')
+   script.
+      $(window).on('load',function(event){
+         $("#searchNota").focus();
+      });
+
+      $('#nota').on('input', function(event){
+         $("#searchNota").focus();
+      });
+
+      $('#nota').on('blur',function(event){
+         $("#searchNota").focus();
+      });
+
+      $('#buttonNota').on('click', function(event){
+         $("#searchNota").focus();
+      });
+
+      $("#searchNota").on('keyup',function(event){
+         var nota = $(this).val().replace(/[^a-zA-Z0-9\-]+/g,'');
+         $(this).val(nota);
+      });

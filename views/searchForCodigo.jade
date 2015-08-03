@@ -1,0 +1,59 @@
+extends layout
+
+block css
+   link(rel='stylesheet' href='/stylesheets/datatables/media/css/jquery.dataTables.css')
+   link(rel='stylesheet' href='/stylesheets/jquery-ui/jquery-ui.css')
+   script(src='/stylesheets/datatables/media/js/jquery.js')
+   script.
+      if (#{show}) {
+         $(document).ready(function(){
+            $('#modalCodigo').modal({backdrop: 'static', show: true});
+         });
+      }
+
+block content
+   form.form-horizontal(role="form" id="formCodigo" method="post")
+      div.form-group
+         label.control-label.col-sm-2(for="codigo") Código:
+         div.col-sm-2
+            div.input-group
+               input#searchCodigo.form-control(type="text" name="searchCodigo" placeholder="Insira um código")
+               span.input-group-btn
+                  button#buttonCodigo.btn.btn-default(type="submit")
+                     span.glyphicon.glyphicon-search
+   div.row
+      div.col-sm-offset-2.col-sm-10
+         table#tableCodigo.display
+            tbody
+               if results
+                  each result in results
+                     tr
+                        td #{result.codigo}
+                        td #{result.nota.substring(0,150).replace(/(<([^>]+)>)/ig,' ')} <div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em> #{result.tags} </div>
+                        td
+                        td
+   #modalCodigo.modal
+      .modal-dialog
+         .modal-content
+            .modal-header
+               button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+               h4.modal-title Mensagem:
+            .modal-body
+               p #{message}
+            .modal-footer
+               button.btn.btn-default(type="button" data-dismiss="modal") Fechar
+block script
+   script(src='/stylesheets/datatables/media/js/jquery.dataTables.js')
+   script(src='/javascripts/componentsInit/tables.js')
+   script.
+      $(window).on('load',function(event){
+         $("#searchCodigo").focus();
+      });
+
+      $("#searchCodigo").on('keyup',function(event){
+         var codigo = $(this).val().replace(/[^a-zA-Z0-9\-\/]/g,'');
+         $(this).val(codigo.toUpperCase());
+      });
+
+
+
