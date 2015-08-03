@@ -14,7 +14,7 @@ block css
       }
 
 block content
-   form.form-horizontal(role="form" method="post" enctype="multipart/formdata")
+   form.form-horizontal(role="form" method="post" enctype="multipart/form-data")
       div.form-group
          label.control-label.col-sm-2(for="codigo") Código:
          div.col-sm-2
@@ -57,20 +57,11 @@ block content
                   button.btn.btn-default(type="button" data-dismiss="modal") Fechar
 
       div.form-group
-         label.control-label.col-sm-2
+         div.col-sm-offset-2.col-sm-2
             button#editEnviar.btn.btn-default Salvar
          input#comando.form-control(type="hidden" name="comando" value="post")
-         //input#codigo.form-control(type="hidden" name="codigo" value="#{codigo}")
          input#versao.form-control(type="hidden" name="versao" value="#{versao}")
 
-
-   //form.form-horizontal(id="form-data" role="form" action="edit" method="post")
-      div.form-group
-         div.col-sm-offset-2.col-sm-10
-            button#editEnviar.btn.btn-default Salvar
-            input#comando.form-control(type="hidden" name="comando" value="post")
-            input#codigo.form-control(type="hidden" name="codigo" value="#{codigo}")
-            input#versao.form-control(type="hidden" name="versao" value="#{versao}")
 block script
    script(src='/stylesheets/tokenfield/bootstrap-tokenfield.js')
    script(src='/javascripts/componentsInit/tokenfields.js')

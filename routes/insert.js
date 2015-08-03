@@ -22,10 +22,10 @@ router.post('/',function(req, res, next){
           notadata['tags'] = req.body.tags;
       notadata['versao'] = parseInt(0);
    }
-   var files = req.files;
-   if (files.file) {
-      if (files.file.length > 1){
-          files.file.forEach(function(file,i){
+   var files = req.files.file;
+   if (files) {
+      if (files.length > 1){
+          files.forEach(function(file,i){
               notadata['file'+i]=rest.file(file.path,null,file.size,null,file.mimetype);
           });
       } else {
@@ -35,7 +35,6 @@ router.post('/',function(req, res, next){
    }
    notasRest.newNota(notadata,function(data){
      res.render('insert',{show: 'true', message: data.message});
-
    });
 });
 
