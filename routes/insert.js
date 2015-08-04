@@ -17,9 +17,9 @@ router.post('/',function(req, res, next){
       if (req.body.codigo)
           notadata['codigo'] = req.body.codigo;
       if (req.body.nota)
-          notadata['nota'] = req.body.nota;
+          notadata['nota'] = encodeURI(req.body.nota);
       if (req.body.tags)
-          notadata['tags'] = req.body.tags;
+          notadata['tags'] = encodeURI(req.body.tags);
       notadata['versao'] = parseInt(0);
    }
    var files = req.files.file;
