@@ -31,9 +31,9 @@ block content
             if (arquivos != '')
                for arquivo, i in arquivos
                   div(id=i)
-                     a(id=i) #{arquivo}
+                     a(id=i value="#{arquivo}") #{arquivo}
                      span &nbsp&nbsp
-                     button.btn.btn-default.btn-xs(id=i type="submit" ) -
+                     button.btn.btn-default.btn-xs(id=i value="#{arquivo}" type="submit" ) -
 
       div.form-group
          label.control-label.col-sm-2(for='arquivos') Arquivo(s):
@@ -59,8 +59,8 @@ block content
       div.form-group
          div.col-sm-offset-2.col-sm-2
             button#editEnviar.btn.btn-default Salvar
-         input#comando.form-control(type="hidden" name="comando" value="post")
-         input#versao.form-control(type="hidden" name="versao" value="#{versao}")
+               input#comando.form-control(type="hidden" name="comando" value="")
+               input#versao.form-control(type="hidden" name="versao" value="#{versao}")
 
 block script
    script(src='/stylesheets/tokenfield/bootstrap-tokenfield.js')
@@ -71,11 +71,22 @@ block script
    script.
       $(document).on('click','button.btn.btn-default.btn-xs', function(event){
          var i = $(this).attr('id');
+         var value = $(this).attr('value');
          $('div#'+i).remove();
          var count = $('#itensArquivos').children().length;
          if (count == 0)
             $('#listaArquivos').attr('style','display: none');
-         event.preventDefault();
+         $.ajax({url: '/documents' ,type: 'DELETE', data: {codigo: "#{codigo}", value: value}});
+         location.reload();
+      });
+
+      $(document).on('click','#editEnviar.btn.btn-default',function(event){
+         $("#comando.form-control").val("post");
+      });
+
+      $(document).on('click','a',function(event){
+         var value = $(this).attr('value');
+         $.post('/documents',{codigo: "#{codigo}", value: value});
       });
 
       $(document).on('ready', function(){

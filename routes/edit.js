@@ -8,7 +8,8 @@ var fs = require('fs');
 router.get('/', function(req, res, next) {
    var codigo = req.body.codigo;
    notasRest.getNotaByCodigo(codigo, function(data){
-      var versao = data.versao;
+      console.log(data.__v);
+      var versao = data.__v;
       var nota = data.nota;
       var tags = data.tags;
       var arquivos = data.arquivos;
@@ -27,7 +28,7 @@ router.post('/', function(req, res, next){
    var message = '';
    notasRest.getNotaByCodigo(codigo,function(data){
       if (data.hasOwnProperty('codigo')){
-             versao = parseInt(data.versao);
+             versao = parseInt(data.__v);
              nota = data.nota;
              tags = data.tags;
              arquivos = data.arquivos;
@@ -69,7 +70,7 @@ router.post('/', function(req, res, next){
             }
             notasRest.getNotaByCodigo(codigo, function(data){
                 if (data.hasOwnProperty('codigo')){
-                    versao = parseInt(data.versao);
+                    versao = parseInt(data.__v);
                     nota = decodeURI(data.nota);
                     tags = decodeURI(data.tags);
                     arquivos = data.arquivos;

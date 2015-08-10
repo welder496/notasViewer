@@ -13,7 +13,9 @@
     "morgan": "~1.5.1",
     "multer": "^0.1.8",
     "notasrest": "^1.0.1",
+    "opener": "^1.4.1",
     "referer-parser": "0.0.3",
+    "request": "^2.60.0",
     "restler": "^3.3.0",
     "serve-favicon": "~2.2.0"
   }
