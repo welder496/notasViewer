@@ -68,7 +68,6 @@ block script
    script(src='/stylesheets/editors5/dist/wysihtml5x-toolbar.min.js')
    script(src='/stylesheets/editors5/dist/bootstrap3-wysihtml5.js')
    script(src='/javascripts/componentsInit/textAreaEditor.js')
-   script(src='/javascripts/rest/rest.js')
    script.
       $(document).on('click','button.btn.btn-default.btn-xs', function(event){
          var i = $(this).attr('id');
@@ -77,14 +76,11 @@ block script
          var count = $('#itensArquivos').children().length;
          if (count == 0)
             $('#listaArquivos').attr('style','display: none');
-         //$.ajax({url: '/documents' ,type: 'DELETE', data: {codigo: "#{codigo}", value: value}});
          rest.del('/documents',{codigo:"#{codigo}",value: value});
+         rest.get('/version',{codigo:"#{codigo}"}, function(data){
+            $('#versao.form-control').val(data.versao);
+         });
          $('#comando.form-control').val('edit');
-      });
-
-      $(document).on('click','#editEnviar.btn.btn-default',function(event){
-         $("#comando.form-control").val("post");
-         //location.reload();
       });
 
       $(document).on('click','a',function(event){

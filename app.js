@@ -12,6 +12,7 @@ var searchForTags = require('./routes/searchForTags');
 var searchForCodigo = require('./routes/searchForCodigo');
 var searchForNota = require('./routes/searchForNota');
 var documents = require('./routes/documents');
+var version = require('./routes/version');
 var help = require('./routes/help');
 
 var app = express();
@@ -39,6 +40,7 @@ app.use('/searchForTags', searchForTags);
 app.use('/searchForCodigo', searchForCodigo);
 app.use('/searchForNota', searchForNota);
 app.use('/documents', documents);
+app.use('/version',version);
 app.use('/help', help);
 
 // catch 404 and forward to error handler
