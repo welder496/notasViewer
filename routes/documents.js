@@ -5,7 +5,7 @@ var open = require('opener');
 var request = require('request');
 
 router.get('/', function(req, res, next){
-   res.render('documents');
+   res.end();
 });
 
 router.delete('/', function(req, res, next){
@@ -26,7 +26,7 @@ router.delete('/', function(req, res, next){
          }
       })
    });
-  res.render('documents');
+  res.end();
 });
 
 router.post('/', function(req, res, next){
@@ -51,7 +51,7 @@ router.post('/', function(req, res, next){
          });
       }
   });
-  res.render('documents');
+  res.end();
 });
 
 module.exports = router;

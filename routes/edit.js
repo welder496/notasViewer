@@ -8,7 +8,6 @@ var fs = require('fs');
 router.get('/', function(req, res, next) {
    var codigo = req.body.codigo;
    notasRest.getNotaByCodigo(codigo, function(data){
-      console.log(data.__v);
       var versao = data.__v;
       var nota = data.nota;
       var tags = data.tags;
