@@ -23,7 +23,7 @@ block content
       div.form-group
          label.control-label.col-sm-2(for="nota") Nota:
          div.col-sm-10
-            textarea#editNota.form-control(rows="20" name="nota" placeholder="Escreva uma nota ou descrição aqui!!" readonly) #{nota}
+            textarea#editNota.form-control(disabled rows="20" name="nota" placeholder="Escreva uma nota ou descrição aqui!!") #{nota}
 
       #listaArquivos.form-group
          label.control-label.col-sm-2(for='arquivos') Arquivo(s) cadastrado(s):
@@ -32,13 +32,6 @@ block content
                for arquivo, i in arquivos
                   div(id=i)
                      a(id=i value="#{arquivo}") #{arquivo}
-                     //span &nbsp&nbsp
-                     //button.btn.btn-default.btn-xs(id=i value="#{arquivo}" type="submit" ) -
-
-      //div.form-group
-         label.control-label.col-sm-2(for='arquivos') Arquivo(s):
-         div.col-sm-4
-            input#editArquivos.form-control(type="file" name="file" placeholder="Insira um arquivo aqui!!" multiple)
 
       div.form-group
          label.control-label.col-sm-2(for="tags") Tags:
