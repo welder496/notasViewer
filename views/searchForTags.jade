@@ -32,9 +32,7 @@ block content
                   each result in results
                      tr
                         td #{result.codigo}
-                        td #{result.nota.substring(0,150).replace(/(<([^>]+)>)/ig,' ')} <div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em> #{result.tags} </div>
-                        td
-                        td
+                        td #{result.nota.substring(0,250).replace(/(<([^>]+)>)/ig,' ')} <div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em> #{result.tags} </div>
    #modalTags.modal
       .modal-dialog
          .modal-content
@@ -55,12 +53,10 @@ block script
           $("#searchTags").focus();
       });
 
-      /*Identifies the search*/
       $('#buttonOR').on('click', function(event){
           $("#choosenButton").val("OR");
       });
 
-      /*Identifies the search*/
       $('#buttonAND').on('click', function(event){
           $("#choosenButton").val("AND");
       });
@@ -69,4 +65,13 @@ block script
          var searchTags = $(this).val().replace(/[^a-zA-Z0-9\-]+/g,'');
          $(this).val(searchTags.toUpperCase());
       });
+
+      $("#tableTags").on('click','tr', function(event){
+           var codigo = $('td',this).eq(0).text();
+           rest.post('/edit',{codigo: codigo, comando: 'edit'},function(data){
+              document.write(data);
+              document.close();
+           });
+      });
+
 

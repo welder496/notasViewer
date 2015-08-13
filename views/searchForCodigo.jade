@@ -29,9 +29,7 @@ block content
                   each result in results
                      tr
                         td #{result.codigo}
-                        td #{result.nota.substring(0,150).replace(/(<([^>]+)>)/ig,' ')} <div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em> #{result.tags} </div>
-                        td
-                        td
+                        td #{result.nota.substring(0,250).replace(/(<([^>]+)>)/ig,' ')} <div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em> #{result.tags} </div>
    #modalCodigo.modal
       .modal-dialog
          .modal-content
@@ -54,6 +52,15 @@ block script
          var codigo = $(this).val().replace(/[^a-zA-Z0-9\-\/]/g,'');
          $(this).val(codigo.toUpperCase());
       });
+
+      $("#tableCodigo").on('click','tr', function(event){
+           var codigo = $('td',this).eq(0).text();
+           rest.post('/edit',{codigo: codigo},function(data){
+              document.write(data);
+              document.close();
+           });
+      });
+
 
 
 

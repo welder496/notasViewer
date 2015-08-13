@@ -23,7 +23,7 @@ block content
       div.form-group
          label.control-label.col-sm-2(for="nota") Nota:
          div.col-sm-10
-            textarea#editNota.form-control(rows="20" name="nota" placeholder="Escreva uma nota ou descrição aqui!!") #{nota}
+            textarea#editNota.form-control(rows="20" name="nota" placeholder="Escreva uma nota ou descrição aqui!!" readonly) #{nota}
 
       #listaArquivos.form-group
          label.control-label.col-sm-2(for='arquivos') Arquivo(s) cadastrado(s):
@@ -32,10 +32,10 @@ block content
                for arquivo, i in arquivos
                   div(id=i)
                      a(id=i value="#{arquivo}") #{arquivo}
-                     span &nbsp&nbsp
-                     button.btn.btn-default.btn-xs(id=i value="#{arquivo}" type="submit" ) -
+                     //span &nbsp&nbsp
+                     //button.btn.btn-default.btn-xs(id=i value="#{arquivo}" type="submit" ) -
 
-      div.form-group
+      //div.form-group
          label.control-label.col-sm-2(for='arquivos') Arquivo(s):
          div.col-sm-4
             input#editArquivos.form-control(type="file" name="file" placeholder="Insira um arquivo aqui!!" multiple)
@@ -58,8 +58,8 @@ block content
 
       div.form-group
          div.col-sm-offset-2.col-sm-2
-            button#editEnviar.btn.btn-default Salvar
-               input#comando.form-control(type="hidden" name="comando" value="post")
+            button#editEnviar.btn.btn-default Voltar
+               input#comando.form-control(type="hidden" name="comando" value="back")
                input#versao.form-control(type="hidden" name="versao" value="#{versao}")
 
 block script
@@ -69,20 +69,6 @@ block script
    script(src='/stylesheets/editors5/dist/bootstrap3-wysihtml5.js')
    script(src='/javascripts/componentsInit/textAreaEditor.js')
    script.
-      $(document).on('click','button.btn.btn-default.btn-xs', function(event){
-         var i = $(this).attr('id');
-         var value = $(this).attr('value');
-         $('div#'+i).remove();
-         var count = $('#itensArquivos').children().length;
-         if (count == 0)
-            $('#listaArquivos').attr('style','display: none');
-         rest.del('/documents',{codigo:"#{codigo}",value: value});
-         rest.get('/version',{codigo:"#{codigo}"}, function(data){
-            $('#versao.form-control').val(data.versao);
-         });
-         $('#comando.form-control').val('edit');
-      });
-
       $(document).on('click','a',function(event){
          var value = $(this).attr('value');
          rest.post('/documents',{codigo: "#{codigo}", value: value});
