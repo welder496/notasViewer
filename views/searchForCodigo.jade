@@ -29,7 +29,7 @@ block content
                   each result in results
                      tr
                         td #{result.codigo}
-                        td #{result.nota.substring(0,250).replace(/(<([^>]+)>)/ig,' ')} <div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em> #{result.tags} </div>
+                        td #{result.nota.substring(0,3350).replace(/(<([^>]+)>)/ig,' ')} <div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em> #{result.tags} </div>
    #modalCodigo.modal
       .modal-dialog
          .modal-content
@@ -55,7 +55,8 @@ block script
 
       $("#tableCodigo").on('click','tr', function(event){
            var codigo = $('td',this).eq(0).text();
-           rest.post('/edit',{codigo: codigo},function(data){
+           var last = document.location.href;
+           rest.post('/edit',{codigo: codigo, comando:'edit', lastPage:last} , function(data){
               document.write(data);
               document.close();
            });

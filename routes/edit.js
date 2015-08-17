@@ -8,7 +8,7 @@ var fs = require('fs');
 router.get('/', function(req, res, next) {
    var codigo = req.query.codigo;
    notasRest.getNotaByCodigo(codigo, function(data){
-      var versao = data.__v;
+      var versao = parseInt(data.__v);
       var nota = data.nota;
       var tags = data.tags;
       var arquivos = data.arquivos;
@@ -20,23 +20,30 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next){
    var codigo = req.body.codigo;
    var comando = req.body.comando;
+   var lastPage = req.body.lastPage;
+   console.log(req.body);
    var versao = 0;
    var nota = '';
    var tags = '';
    var arquivos = '';
    var message = '';
-   notasRest.getNotaByCodigo(codigo,function(data){
-      if (data.hasOwnProperty('codigo')){
-             versao = parseInt(data.__v);
-             nota = data.nota;
-             tags = data.tags;
-             arquivos = data.arquivos;
-      }
-      if (data.hasOwnProperty('message')){
-             message = data.message
-      }
-      res.render('edit', {codigo: codigo, nota: nota, tags: tags, arquivos: arquivos, versao: versao, message: message, show:'false'});
-   });
+   if (comando=="edit"){
+      notasRest.getNotaByCodigo(codigo,function(data){
+          if (data.hasOwnProperty('codigo')){
+               versao = parseInt(data.__v);
+               nota = data.nota;
+               tags = data.tags;
+               arquivos = data.arquivos;
+          }
+          if (data.hasOwnProperty('message')){
+               message = data.message
+          }
+          res.render('edit', {codigo: codigo, nota: nota, tags: tags, arquivos: arquivos, versao: versao, message: message, show:'false'});
+      });
+   }
+   if (comando=="post"){
+       res.redirect(lastPage);
+   }
 });
 
 module.exports = router;

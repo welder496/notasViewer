@@ -3,7 +3,7 @@ $(document).ready( function() {
    $('#tableCodigo').dataTable({
 	"paging": true,
 	"info": false,
-      "ordering": false,
+          "ordering": false,
 	"searching": false,
 	"bLengthChange": false,
 	"lengthMenu": [5],
@@ -17,8 +17,8 @@ $(document).ready( function() {
 		"sEmptyTable": "A tabela está vazia!!"
 	},
 	"aoColumns": [
-	         {"sTitle": "Código", "sWidth": "10%"},
-               {"sTitle": "Nota", "sWidth": "90%"}
+	     {"sTitle": "Código","sWidth": "10%"},
+               {"sTitle": "Nota","sWidth": "90%"}
        ]
    });
 
@@ -28,7 +28,7 @@ $(document).ready( function() {
 	"info": false,
 	"searching": false,
 	"bLengthChange": false,
-      "ordering": false,
+         "ordering": false,
 	"lengthMenu": [5],
  	"oLanguage" : {
 		"oPaginate":{
