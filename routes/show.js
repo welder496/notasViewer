@@ -21,7 +21,6 @@ router.post('/', function(req, res, next){
    var codigo = req.body.codigo;
    var comando = req.body.comando;
    var lastPage = req.body.lastPage;
-   console.log(req.body);
    var versao = 0;
    var nota = '';
    var tags = '';
