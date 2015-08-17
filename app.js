@@ -6,8 +6,7 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 
 var routes = require('./routes/index');
-var edit = require('./routes/edit');
-var insert = require('./routes/insert');
+var show = require('./routes/show');
 var searchForTags = require('./routes/searchForTags');
 var searchForCodigo = require('./routes/searchForCodigo');
 var searchForNota = require('./routes/searchForNota');
@@ -34,8 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/index', routes);
-app.use('/insert', insert);
-app.use('/edit',edit);
+app.use('/show',show);
 app.use('/searchForTags', searchForTags);
 app.use('/searchForCodigo', searchForCodigo);
 app.use('/searchForNota', searchForNota);
