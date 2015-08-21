@@ -7,7 +7,6 @@ var multer = require('multer');
 
 var routes = require('./routes/index');
 var searchForTags = require('./routes/searchForTags');
-var searchForCodigo = require('./routes/searchForCodigo');
 var searchForNota = require('./routes/searchForNota');
 var documents = require('./routes/documents');
 var version = require('./routes/version');
@@ -33,7 +32,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/index', routes);
 app.use('/searchForTags', searchForTags);
-app.use('/searchForCodigo', searchForCodigo);
 app.use('/searchForNota', searchForNota);
 app.use('/documents', documents);
 app.use('/version',version);
