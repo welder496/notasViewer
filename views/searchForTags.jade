@@ -12,18 +12,7 @@ block css
          });
       }
 
-
 block content
-   form.form-horizontal(role="form" id="formTags" method="post")
-      div.form-group
-         label.control-label.col-sm-2(for="tags") Tags:
-         div.col-sm-10
-            div.input-group
-               input#searchTags.form-control.button-click(type="text" name="searchTags" placeholder="Insira uma tag para pesquisar!!")
-               input#choosenButton(type="hidden" name="choosenButton" value="")
-               span.input-group-btn
-                  button#buttonOR.btn.btn-default Ou
-                  button#buttonAND.btn.btn-default E
    div.row
       div.col-sm-offset-2.col-sm-10
          table#tableTags.display
@@ -76,7 +65,7 @@ block script
       });
 
       $(".btn.btn-default.btn-xs").on('click',function(event){
-          $("searchTags").tokenfield();
+          $("#searchTags").tokenfield();
           var search = $("#searchTags").val()+","+$(this).attr('id');
           if (search[0]==',')
               search = search.substring(1,(search.length));
