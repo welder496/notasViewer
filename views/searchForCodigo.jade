@@ -21,6 +21,7 @@ block content
                span.input-group-btn
                   button#buttonCodigo.btn.btn-default(type="submit")
                      span.glyphicon.glyphicon-search
+
    div.row
       div.col-sm-offset-2.col-sm-10
          table#tableCodigo.display
@@ -29,7 +30,7 @@ block content
                   each result in results
                      tr
                         td #{result.codigo}
-                        td #{result.nota.substring(0,3350).replace(/(<([^>]+)>)/ig,' ')} <div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em> #{result.tags} </div>
+                        td <div style="float:left;clear:left;">!{result.nota}</div><div style='float:left;clear:left;margin-top:10px'>!{result.arquivos}</div><div style='float:left;clear:left;margin-top:10px'><em><strong>Tags: </strong></em> !{result.tags} </div>
    #modalCodigo.modal
       .modal-dialog
          .modal-content
@@ -53,14 +54,28 @@ block script
          $(this).val(codigo.toUpperCase());
       });
 
+      $(".btn.btn-default.btn-xs").on('click',function(event){
+          event.preventDefault();
+      })
+
+      $("#tableCodigo").on('click','a',function(event){
+         var codigo = $(this).attr('id');
+         var value = $(this).attr('value');
+         rest.post('/documents',{codigo: codigo, value: value},function(data){
+               window.location = data;
+         });
+      });
+
+      /*
       $("#tableCodigo").on('click','tr', function(event){
            var codigo = $('td',this).eq(0).text();
            var last = document.location.href;
-           rest.post('/edit',{codigo: codigo, comando:'edit', lastPage:last} , function(data){
+           rest.post('/show',{codigo: codigo, comando:'show', lastPage:last} , function(data){
               document.write(data);
               document.close();
            });
       });
+      */
 
 
 

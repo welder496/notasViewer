@@ -32,7 +32,7 @@ block content
                   each result in results
                      tr
                         td #{result.codigo}
-                        td #{result.nota.substring(0,3550).replace(/(<([^>]+)>)/ig,' ')} <div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em> #{result.tags} </div>
+                        td <div style="float:left;clear:left;">!{result.nota}</div><div style='float:left;clear:left;margin-top:10px'>!{result.arquivos}</div><div style='float:left;clear:left;margin-top:10px'><em><strong>Tags: </strong></em> !{result.tags} </div>
    #modalTags.modal
       .modal-dialog
          .modal-content
@@ -66,13 +66,40 @@ block script
          $(this).val(searchTags.toUpperCase());
       });
 
+      $("#searchTags").on('tokenfield:createtoken', function(event){
+          var existingTokens = $(this).tokenfield('getTokens');
+          $.each(existingTokens, function(index, token){
+                if (token.value === event.attrs.value) {
+                    event.preventDefault();
+                }
+          });
+      });
+
+      $(".btn.btn-default.btn-xs").on('click',function(event){
+          $("searchTags").tokenfield();
+          var search = $("#searchTags").val()+","+$(this).attr('id');
+          if (search[0]==',')
+              search = search.substring(1,(search.length));
+          $('#searchTags').tokenfield('setTokens',search);
+      })
+
+      $("#tableTags").on('click','a',function(event){
+         var codigo = $(this).attr('id');
+         var value = $(this).attr('value');
+         rest.post('/documents',{codigo: codigo, value: value},function(data){
+               window.location = data;
+         });
+      });
+
+      /*
       $("#tableTags").on('click','tr', function(event){
            var codigo = $('td',this).eq(0).text();
            var last = document.location.href;
-           rest.post('/edit',{codigo: codigo, comando: 'edit', lastPage: last}, function(data){
+           rest.post('/show',{codigo: codigo, comando: 'show', lastPage: last}, function(data){
                   document.write(data);
                   document.close();
            });
       });
+      */
 
 
