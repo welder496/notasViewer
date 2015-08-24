@@ -44,10 +44,17 @@ block script
 
       $('#buttonOR').on('click', function(event){
           $("#choosenButton").val("OR");
+          $("searchTags").focus();
       });
 
       $('#buttonAND').on('click', function(event){
           $("#choosenButton").val("AND");
+          $("searchTags").focus();
+      });
+
+      $('#buttonTexto').on('click', function(event){
+          $("#choosenButton").val("Texto");
+          $("searchTags").focus();
       });
 
       $("#searchTags").on('keyup',function(event){

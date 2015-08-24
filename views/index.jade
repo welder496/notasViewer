@@ -1,6 +1,52 @@
 extends layout
 
+block css
+   link(rel='stylesheet' href='/stylesheets/jquery-ui/jquery-ui.css')
+   link(rel='stylesheet' href='/stylesheets/tokenfield/css/bootstrap-tokenfield.css')
+   script(src='/stylesheets/datatables/media/js/jquery.js')
+
 block content
    div.jumbotron
       h2 #{title} Viewer
       h4 versão 1.0.0
+
+block script
+   script(src='/stylesheets/tokenfield/bootstrap-tokenfield.js')
+   script(src='/javascripts/componentsInit/tokenfields.js')
+   script.
+      $(window).on('load',function(event){
+          $("#searchTags").focus();
+      });
+
+      $('#buttonOR').on('click', function(event){
+          $("#choosenButton").val("OR");
+          $("searchTags").focus();
+      });
+
+      $('#buttonAND').on('click', function(event){
+          $("#choosenButton").val("AND");
+          $("searchTags").focus();
+      });
+
+      $('#buttonTexto').on('click', function(event){
+          $("#choosenButton").val("Texto");
+          $("searchTags").focus();
+      });
+
+      $("#searchTags").on('tokenfield:createtoken', function(event){
+          var existingTokens = $(this).tokenfield('getTokens');
+          $.each(existingTokens, function(index, token){
+                if (token.value === event.attrs.value) {
+                    event.preventDefault();
+                }
+          });
+      });
+
+      $(".btn.btn-default.btn-xs").on('click',function(event){
+          $("#searchTags").tokenfield();
+          var search = $("#searchTags").val()+","+$(this).attr('id');
+          if (search[0]==',')
+              search = search.substring(1,(search.length));
+          $('#searchTags').tokenfield('setTokens',search);
+      });
+

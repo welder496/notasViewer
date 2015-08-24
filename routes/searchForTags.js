@@ -17,7 +17,6 @@ router.get('/', function(req, res, next) {
 
 /* POST */
 router.post('/', function(req, res, next) {
-   var del = req.body.comando;
    var button = req.body.choosenButton;
    var searchTags = req.body.searchTags;
    if (button== "OR" && (typeof(searchTags) != "undefined" && searchTags)) {
@@ -43,6 +42,18 @@ router.post('/', function(req, res, next) {
             else
                res.render('searchForTags', {results: data, show: 'false'});
          })
+   } else
+   if (button=="Texto" && (typeof(searchTags) != "undefined" && searchTags)) {
+         notasRest.getNotasLike(searchTags, function(data){
+             for (var i=0; i < data.length; i++){
+                 data[i].tags = tags(data[i].tags);
+                 data[i].arquivos = arquivos(data[i].codigo,data[i].arquivos);
+             }
+             if (data.hasOwnProperty('message'))
+                res.render('searchForTags',{results: null, show: 'true', message: data.message});
+             else
+                res.render('searchForTags',{results: data, show: 'false'});
+         });
    } else {
          notasRest.getFirstNotas(function(data){
             for (var i=0; i < data.length; i++){

@@ -14,7 +14,7 @@ html
                a.navbar-brand(href="/index") Notas
             div
                ul.nav.navbar-nav
-                  li: a(href="/searchForTags" ) Pesquisa por Tag
+                  li: a(href="/searchForTags" ) Pesquisa
                   li: a(href="/help") Ajuda
          div.container-fluid
             form.form-horizontal(role="form" id="formTags" method="post")
@@ -27,7 +27,7 @@ html
                            span.input-group-btn
                                button#buttonOR.btn.btn-default Ou
                                button#buttonAND.btn.btn-default E
-                               button#buttonNota.btn.btn-default Texto
+                               button#buttonTexto.btn.btn-default Texto
       block content
 
     script(src='/stylesheets/jquery/jquery-2.1.3.min.js')
