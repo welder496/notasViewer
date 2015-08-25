@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var notasRest = require('notasrest');
-var open = require('opener');
-var request = require('request');
 
 router.get('/', function(req, res, next){
    res.end();
@@ -25,12 +23,11 @@ router.post('/', function(req, res, next){
                   res.render('edit',{message: message, show: 'true'});
              } else
              if (data) {
-                 open(data);
+                  res.send(data);
              }
          });
       }
   });
-  res.end();
 });
 
 module.exports = router;
