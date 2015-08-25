@@ -83,7 +83,7 @@ block script
          var codigo = $(this).attr('id');
          var value = $(this).attr('value');
          rest.post('/documents',{codigo: codigo, value: value},function(data){
-               window.location = data;
+               window.open(data);
          });
       });
 
