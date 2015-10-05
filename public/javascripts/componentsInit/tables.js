@@ -6,7 +6,7 @@ $(document).ready( function() {
           "ordering": false,
 	"searching": false,
 	"bLengthChange": false,
-	"lengthMenu": [5],
+	"lengthMenu": [4],
 	"oLanguage" : {
 		"oPaginate":{
 			"sPrevious":"Página Anterior",
@@ -29,7 +29,7 @@ $(document).ready( function() {
 	"searching": false,
 	"bLengthChange": false,
          "ordering": false,
-	"lengthMenu": [5],
+	"lengthMenu": [4],
  	"oLanguage" : {
 		"oPaginate":{
 			"sPrevious":"Página Anterior",
@@ -52,7 +52,7 @@ $(document).ready( function() {
 	"searching": false,
        "ordering": false,
 	"bLengthChange": false,
-	"lengthMenu": [5],
+	"lengthMenu": [4],
 	"oLanguage" : {
 		"oPaginate":{
 			"sPrevious":"Página Anterior",
