@@ -29,11 +29,9 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
    var message = "";
    var show = 'false';
-   var del = req.body.comando;
    var button = req.body.choosenButton;
    var searchTags = req.body.searchTags;
-   if (typeof(del) == "undefined") {
-      if (button== "OR" && (typeof(searchTags) != "undefined" && searchTags)) {
+   if (button== "OR" && (typeof(searchTags) != "undefined" && searchTags)) {
              notasRest.getNotasByTagsOr(searchTags, function(data){
                    if (data.hasOwnProperty('message')) {
                         message = data.message;
@@ -41,7 +39,7 @@ router.post('/', function(req, res, next) {
                    }
                    showData(res, message, show, data)
          });
-      } else
+   } else
       if (button== "AND" && (typeof(searchTags) != "undefined" && searchTags)) {
              notasRest.getNotasByTagsAnd(searchTags, function(data){
                    if (data.hasOwnProperty('message')) {
@@ -50,7 +48,7 @@ router.post('/', function(req, res, next) {
                    }
                    showData(res, message, show, data);
          });
-      } else
+   } else
       if (button== "Texto" && (typeof(searchTags) != "undefined" && searchTags)){
              notasRest.getNotasLike(searchTags, function(data){
                    if (data.hasOwnProperty('message')) {
@@ -59,15 +57,14 @@ router.post('/', function(req, res, next) {
                    }
                    showData(res, message, show, data);
          });
-      }
    } else {
-             notasRest.getFirstNotas(function(data){
-                   if (data.hasOwnProperty('message')){
-                          message = data.message;
-                          show = 'true';
+         notasRest.getFirstNotas(function(data){
+                   if (data.hasOwnProperty('message')) {
+                        message = data.message;
+                        show = 'true';
                    }
                    showData(res, message, show, data);
-             });
+         });
    }
 });
 
