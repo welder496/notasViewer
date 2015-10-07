@@ -3,7 +3,7 @@ html
   head
     title= title
     meta(charset='utf-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1')
     link(rel='stylesheet', href='/stylesheets/bootstrap-3.3.4/css/bootstrap.min.css')
     block css
   body
@@ -17,16 +17,16 @@ html
                   li: a(href="/searchForTags" ) Pesquisa
                   li: a(href="/help") Ajuda
          div.container-fluid
-            form.form-horizontal(role="form" id="formTags" method="post")
-               div.form-group
-                   div.col-sm-12
-                       div.input-group
-                           input#searchTags.form-control.button-click(type="text" name="searchTags" placeholder="Insira uma tag para pesquisar!!")
-                           input#choosenButton(type="hidden" name="choosenButton" value="")
-                           span.input-group-btn
-                               button#buttonOR.btn.btn-default Ou
-                               button#buttonAND.btn.btn-default E
-                               button#buttonTexto.btn.btn-default Texto
+            form(role="form" method="post")
+               div.col-sm-12.span12
+                  div.form-group
+                     div.input-group
+                        input#searchTags.form-control(type="text" name="searchTags" placeholder="Insira uma tag para pesquisar!!")
+                        input#choosenButton(type="hidden" name="choosenButton" value="")
+                        span.input-group-btn
+                            button#buttonOR.btn.btn-default Ou
+                            button#buttonAND.btn.btn-default E
+                            button#buttonTexto.btn.btn-default Texto
       block content
 
     script(src='/stylesheets/jquery/jquery-2.1.3.min.js')
@@ -36,3 +36,4 @@ html
     script(src='/javascripts/rest/rest.js')
 
     block script
+

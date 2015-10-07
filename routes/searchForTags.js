@@ -31,6 +31,9 @@ router.post('/', function(req, res, next) {
    var show = 'false';
    var button = req.body.choosenButton;
    var searchTags = req.body.searchTags;
+   if (typeof(searchTags) != "undefined") {
+           searchTags = decodeURIComponent(req.body.searchTags);
+   }
    if (button== "OR" && (typeof(searchTags) != "undefined" && searchTags)) {
              notasRest.getNotasByTagsOr(searchTags, function(data){
                    if (data.hasOwnProperty('message')) {

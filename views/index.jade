@@ -4,18 +4,40 @@ block css
    link(rel='stylesheet' href='/stylesheets/jquery-ui/jquery-ui.css')
    link(rel='stylesheet' href='/stylesheets/tokenfield/css/bootstrap-tokenfield.css')
    script(src='/stylesheets/datatables/media/js/jquery.js')
+   script(src='/stylesheets/wordcloud2/wordcloud2.js')
 
 block content
-   div.jumbotron
-      h2 #{title} Viewer
-      h4 versão 1.0.0
+   div.container-fluid
+      canvas#canvas.img-responsive(width=1150,height=700)
 
 block script
    script(src='/stylesheets/tokenfield/bootstrap-tokenfield.js')
    script(src='/javascripts/componentsInit/tokenfields.js')
    script.
+      $(window).on('resize',function(){
+            location.reload();
+      });
+
       $(window).on('load',function(event){
-          $("#searchTags").focus();
+             $("#searchTags").focus();
+             rest.get('/index/tags',function(data){
+                  WordCloud(document.getElementById('canvas'),
+                  {list: data,
+                        gridSize: 18,
+                        weightFactor: 3,
+                        fontFamily: 'Finger Paint, cursive, sans-serif',
+                        color: '#777',
+                        hover: window.drawBox,
+                        click: function(item) {
+                                $("#searchTags").tokenfield();
+                                var search = $("#searchTags").val()+","+item[0];
+                                if (search[0]==',')
+                                          search = search.substring(1,(search.length));
+                                $('#searchTags').tokenfield('setTokens',search);
+                        },
+                        backgroundColor: '#F8F8F8'
+                  });
+          });
       });
 
       $('#buttonOR').on('click', function(event){

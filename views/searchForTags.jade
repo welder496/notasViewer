@@ -38,6 +38,10 @@ block script
    script(src='/stylesheets/datatables/media/js/jquery.dataTables.js')
    script(src='/javascripts/componentsInit/tables.js')
    script.
+      $(window).on('resize',function(){
+           location.reload();
+      });
+
       $(window).on('load',function(event){
           $("#searchTags").focus();
       });
@@ -57,10 +61,12 @@ block script
           $("searchTags").focus();
       });
 
+      /*
       $("#searchTags").on('keyup',function(event){
          var searchTags = $(this).val().replace(/[^a-zA-Z0-9\-]+/g,'');
          $(this).val(searchTags.toUpperCase());
       });
+      */
 
       $("#searchTags").on('tokenfield:createtoken', function(event){
           var existingTokens = $(this).tokenfield('getTokens');
@@ -85,6 +91,25 @@ block script
          rest.post('/documents',{codigo: codigo, value: value},function(data){
                window.open(data,'_blank','top=200,left=200,toolbar=no,resizable=yes,scrollbars=no,width=800,height=600');
          });
+      });
+
+      $(document).on('keydown',function(event){
+             var search = $("#searchTags").val();
+             var key = event.which || event.keyCode;
+             if (key == 97) {
+                rest.post('/searchForTags', {choosenButton: 'OR', searchTags: search} ,function(data){
+                        document.write(data);
+                        document.close();
+                        $("#searchTags").focus();
+                });
+             }
+             if (key == 98) {
+                rest.post('/searchForTags', {choosenButton: 'AND', searchTags: search} ,function(data){
+                        document.write(data);
+                        document.close();
+                        $("#searchTags").focus();
+                });
+             }
       });
 
       /*
