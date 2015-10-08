@@ -64,6 +64,26 @@ block script
           });
       });
 
+
+      $(document).on('keydown',function(event){
+             var search = $("#searchTags").val();
+             var key = event.which || event.keyCode;
+             if (key == 97) {
+                rest.post('/searchForTags', {choosenButton: 'OR', searchTags: search} ,function(data){
+                        document.write(data);
+                        document.close();
+                        $("#searchTags").focus();
+                });
+             }
+             if (key == 98) {
+                rest.post('/searchForTags', {choosenButton: 'AND', searchTags: search} ,function(data){
+                        document.write(data);
+                        document.close();
+                        $("#searchTags").focus();
+                });
+             }
+      });
+
       $(".btn.btn-default.btn-xs").on('click',function(event){
           $("#searchTags").tokenfield();
           var search = $("#searchTags").val()+","+$(this).attr('id');
