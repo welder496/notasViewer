@@ -83,7 +83,7 @@ block script
           if (search[0]==',')
               search = search.substring(1,(search.length));
           $('#searchTags').tokenfield('setTokens',search);
-      })
+      });
 
       $("#tableTags").on('click','a',function(event){
          var codigo = $(this).attr('id');
