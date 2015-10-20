@@ -19,10 +19,10 @@ block script
       });
 
       $(window).on('load',function(event){
-             $("#searchTags").focus();
-             rest.get('/index/tags',function(data){
-                  WordCloud(document.getElementById('canvas'),
-                  {list: data,
+           $("#searchTags").focus();
+           rest.get('/index/tags',function(data){
+                 WordCloud(document.getElementById('canvas'),
+                 {list: data,
                         gridSize: 18,
                         weightFactor: 3,
                         fontFamily: 'Finger Paint, cursive, sans-serif',
@@ -36,22 +36,58 @@ block script
                                 $('#searchTags').tokenfield('setTokens',search);
                         },
                         backgroundColor: '#F8F8F8'
-                  });
-          });
+                 });
+           });
       });
 
       $('#buttonOR').on('click', function(event){
-          $("#choosenButton").val("OR");
-          $("searchTags").focus();
+           $("#choosenButton").val("OR");
+           var searchTags = $("#searchTags").val();
+           if (searchTags != "") {
+                 rest.post('/searchForTags/or',{choosenButton: "OR", searchTags: searchTags}, function(data){
+                       document.write(data);
+                       document.close();
+                 });
+           } else {
+                 rest.post('/searchForTags/', function(data){
+                       document.write(data);
+                       document.close();
+                 });
+           }
+           $("searchTags").focus();
       });
 
       $('#buttonAND').on('click', function(event){
-          $("#choosenButton").val("AND");
-          $("searchTags").focus();
+           $("#choosenButton").val("AND");
+           var searchTags = $("#searchTags").val();
+           if (searchTags != "") {
+                 rest.post('/searchForTags/and',{choosenButton: "AND", searchTags: searchTags}, function(data){
+                       document.write(data);
+                       document.close();
+                 });
+           } else {
+                 rest.post('/searchForTags/', function(data){
+                       document.write(data);
+                       document.close();
+                 });
+           }
+           $("searchTags").focus();
       });
 
       $('#buttonTexto').on('click', function(event){
-          $("#choosenButton").val("Texto");
+          $("#choosenButton").val("TEXTO");
+           var searchTags = $("#searchTags").val();
+           if (searchTags != "") {
+                 rest.post('/searchForTags/texto',{choosenButton: "TEXTO", searchTags: searchTags}, function(data){
+                       document.write(data);
+                       document.close();
+                 });
+           } else {
+                 rest.post('/searchForTags/', function(data){
+                       document.write(data);
+                       document.close();
+                 });
+           }
           $("searchTags").focus();
       });
 
@@ -63,7 +99,6 @@ block script
                 }
           });
       });
-
 
       $(document).on('keydown',function(event){
              var search = $("#searchTags").val();

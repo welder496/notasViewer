@@ -42,43 +42,64 @@ var showData = function(res, message, show, data){
 };
 
 /* GET */
-router.get('/', function(req, res, next) {
-   var message = "";
-   var show = 'false';
-   notasRest.getFirstNotas(function(data){
-         showData(res, message, show, data);
-   });
+router.get('/', function(req, res) {
+      var message = "";
+      var show = 'false';
+      notasRest.getFirstNotas(function(data){
+           showData(res, message, show, data);
+      });
 });
 
-/* POST */
-router.post('/', function(req, res, next) {
+router.post('/or', function(req, res){
+      var show = 'false';
+      var message = "";
+      var button = req.body.choosenButton;
+      var searchTags = req.body.searchTags;
+      pushData(searchTags);
+      stack.push('$or',function(data){});
+      var command="";
+      var command = parseData(0,command);
+      notasRest.getNotasByTags(command.substring(0,command.length-1), function(data){
+           if (data.hasOwnProperty('message')) {
+                 message = data.message;
+                 show = 'true';
+           }
+           showData(res, message, show, data);
+      });
+      pushData(searchTags);
+      stack.push('$or',function(data){});
+});
+
+router.post('/and', function(req, res){
+      var show = 'false';
+      var message = "";
+      var button = req.body.choosenButton;
+      var searchTags = req.body.searchTags;
+      if (typeof(searchTags) != "undefined" && searchTags) {
+           searchTags = decodeURIComponent(req.body.searchTags);
+      }
+      pushData(searchTags);
+      stack.push('$and',function(data){});
+      var command="";
+      var command = parseData(0,command);
+      notasRest.getNotasByTags(command.substring(0,command.length-1), function(data){
+           if (data.hasOwnProperty('message')) {
+                 message = data.message;
+                 show = 'true';
+           }
+           showData(res, message, show, data);
+      });
+      pushData(searchTags);
+      stack.push('$and',function(data){});
+});
+
+router.post('/texto', function(req, res){
       var command = "";
       var message = "";
       var show = 'false';
       var button = req.body.choosenButton;
       var searchTags = req.body.searchTags;
-      if (typeof(searchTags) != "undefined") {
-            searchTags = decodeURIComponent(req.body.searchTags);
-      }
-      if (button != "Texto" && typeof(searchTags) != "undefined" && searchTags) {
-           pushData(searchTags);
-           if (button=="OR") {
-                 stack.push('$or',function(data){});
-           }
-           if (button=="AND") {
-                 stack.push('$and',function(data){});
-           }
-           var command="";
-           var command = parseData(0,command);
-           notasRest.getNotasByTags(command.substring(0,command.length-1), function(data){
-                 if (data.hasOwnProperty('message')) {
-                       message = data.message;
-                       show = 'true';
-                 }
-                 showData(res, message, show, data)
-           });
-      } else
-      if (button== "Texto" && (typeof(searchTags) != "undefined" && searchTags)){
+      if (button == "TEXTO" && (typeof(searchTags) != "undefined" && searchTags)){
            notasRest.getNotasLike(searchTags, function(data){
                  if (data.hasOwnProperty('message')) {
                        message = data.message;
@@ -86,15 +107,22 @@ router.post('/', function(req, res, next) {
                  }
                  showData(res, message, show, data);
            });
-      } else {
-           notasRest.getFirstNotas(function(data){
-                 if (data.hasOwnProperty('message')) {
-                       message = data.message;
-                       show = 'true';
-                 }
-                 showData(res, message, show, data);
-           });
       }
+});
+
+/* POST */
+router.post('/', function(req, res) {
+      var command = "";
+      var message = "";
+      var show = 'false';
+      notasRest.getFirstNotas(function(data){
+           if (data.hasOwnProperty('message')) {
+                 message = data.message;
+                 show = 'true';
+           }
+           showData(res, message, show, data);
+      });
+      stack.clear(function(data){});
 });
 
 module.exports = router;
