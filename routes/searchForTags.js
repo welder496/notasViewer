@@ -53,11 +53,9 @@ router.get('/', function(req, res) {
 router.post('/or', function(req, res){
       var show = 'false';
       var message = "";
-      var button = req.body.choosenButton;
       var searchTags = req.body.searchTags;
       pushData(searchTags);
       stack.push('$or',function(data){});
-      var command="";
       var command = parseData(0,command);
       notasRest.getNotasByTags(command.substring(0,command.length-1), function(data){
            if (data.hasOwnProperty('message')) {
@@ -73,14 +71,12 @@ router.post('/or', function(req, res){
 router.post('/and', function(req, res){
       var show = 'false';
       var message = "";
-      var button = req.body.choosenButton;
       var searchTags = req.body.searchTags;
       if (typeof(searchTags) != "undefined" && searchTags) {
            searchTags = decodeURIComponent(req.body.searchTags);
       }
       pushData(searchTags);
       stack.push('$and',function(data){});
-      var command="";
       var command = parseData(0,command);
       notasRest.getNotasByTags(command.substring(0,command.length-1), function(data){
            if (data.hasOwnProperty('message')) {
@@ -94,7 +90,6 @@ router.post('/and', function(req, res){
 });
 
 router.post('/texto', function(req, res){
-      var command = "";
       var message = "";
       var show = 'false';
       var button = req.body.choosenButton;
@@ -112,7 +107,6 @@ router.post('/texto', function(req, res){
 
 /* POST */
 router.post('/', function(req, res) {
-      var command = "";
       var message = "";
       var show = 'false';
       notasRest.getFirstNotas(function(data){
