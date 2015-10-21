@@ -23,7 +23,7 @@ var parseData = function(counter,str){
 };
 
 var pushData = function(tags){
-   var tags = tags.split(',');
+   tags = tags.split(',');
    tags.forEach(function(data){
             stack.push(data.trim(), function(data){});
    });
