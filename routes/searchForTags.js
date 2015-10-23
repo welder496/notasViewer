@@ -4,6 +4,7 @@ var notasRest = require('notasrest');
 var tags = require('./tags');
 var arquivos = require('./arquivos');
 var stack = require('localstack');
+var stackCopy = [];
 
 var parseData = function(counter,str){
     var txt = "";
@@ -50,22 +51,29 @@ router.get('/', function(req, res) {
       });
 });
 
+router.get('/getTags', function(req, res){
+   res.json(stackCopy);   
+});
+
 router.post('/or', function(req, res){
       var show = 'false';
       var message = "";
       var searchTags = req.body.searchTags;
       pushData(searchTags);
-      stack.push('$or',function(data){});
-      var command = parseData(0,command);
+      //stack.push('$or',function(data){});
+      stack.stack(function(data){
+           console.log("Pilha: "+data);   
+      });
+      stackCopy = stack.copy();
+      var command="";
+      command = parseData(0,command);
       notasRest.getNotasByTags(command.substring(0,command.length-1), function(data){
            if (data.hasOwnProperty('message')) {
-                 message = data.message;
-                 show = 'true';
+               message = data.message;
+               show = 'true';
            }
-           showData(res, message, show, data);
+           showData(res, message, show, data);                
       });
-      pushData(searchTags);
-      stack.push('$or',function(data){});
 });
 
 router.post('/and', function(req, res){
@@ -76,17 +84,20 @@ router.post('/and', function(req, res){
            searchTags = decodeURIComponent(req.body.searchTags);
       }
       pushData(searchTags);
-      stack.push('$and',function(data){});
-      var command = parseData(0,command);
+      //stack.push('$and',function(data){});
+      stack.stack(function(data){
+           console.log("Pilha: "+data);   
+      });
+      stackCopy = stack.copy();
+      var command = "";
+      command = parseData(0,command);
       notasRest.getNotasByTags(command.substring(0,command.length-1), function(data){
            if (data.hasOwnProperty('message')) {
                  message = data.message;
                  show = 'true';
-           }
-           showData(res, message, show, data);
+           } 
+           showData(res, message, show, data);                
       });
-      pushData(searchTags);
-      stack.push('$and',function(data){});
 });
 
 router.post('/texto', function(req, res){
@@ -116,7 +127,7 @@ router.post('/', function(req, res) {
            }
            showData(res, message, show, data);
       });
-      stack.clear(function(data){});
+      //stack.clear(function(data){});
 });
 
 module.exports = router;

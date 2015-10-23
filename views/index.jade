@@ -41,7 +41,6 @@ block script
       });
 
       $('#buttonOR').on('click', function(event){
-           $("#choosenButton").val("OR");
            var searchTags = $("#searchTags").val();
            if (searchTags != "") {
                  rest.post('/searchForTags/or',{choosenButton: "OR", searchTags: searchTags}, function(data){
@@ -58,7 +57,6 @@ block script
       });
 
       $('#buttonAND').on('click', function(event){
-           $("#choosenButton").val("AND");
            var searchTags = $("#searchTags").val();
            if (searchTags != "") {
                  rest.post('/searchForTags/and',{choosenButton: "AND", searchTags: searchTags}, function(data){
@@ -75,7 +73,6 @@ block script
       });
 
       $('#buttonTexto').on('click', function(event){
-          $("#choosenButton").val("TEXTO");
            var searchTags = $("#searchTags").val();
            if (searchTags != "") {
                  rest.post('/searchForTags/texto',{choosenButton: "TEXTO", searchTags: searchTags}, function(data){
@@ -104,14 +101,14 @@ block script
              var search = $("#searchTags").val();
              var key = event.which || event.keyCode;
              if (key == 97) {
-                rest.post('/searchForTags', {choosenButton: 'OR', searchTags: search} ,function(data){
+                rest.post('/searchForTags/or', {choosenButton: 'OR', searchTags: search} ,function(data){
                         document.write(data);
                         document.close();
                         $("#searchTags").focus();
                 });
              }
              if (key == 98) {
-                rest.post('/searchForTags', {choosenButton: 'AND', searchTags: search} ,function(data){
+                rest.post('/searchForTags/and', {choosenButton: 'AND', searchTags: search} ,function(data){
                         document.write(data);
                         document.close();
                         $("#searchTags").focus();

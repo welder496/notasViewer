@@ -7,7 +7,7 @@ var rest = require('restler');
 var stack = require('localstack');
 
 var pushData = function(tags){
-      var tags = tags.split(',');
+      tags = tags.split(',');
       tags.forEach(function(data){
             stack.push(data.trim(), function(data){});
       });

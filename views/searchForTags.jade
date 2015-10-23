@@ -49,8 +49,11 @@ block script
       $('#buttonOR').on('click', function(event){
            $("#choosenButton").val("OR");
            var searchTags = $("#searchTags").val();
+           rest.get('/searchForTags/getTags', function(data){
+                   searchTags = '$or,'+searchTags+','+data;
+           });
            if (searchTags != "") {
-                 rest.post('/searchForTags/or',{choosenButton: "OR", searchTags: searchTags}, function(data){
+                 rest.post('/searchForTags/or',{searchTags: searchTags}, function(data){
                        document.write(data);
                        document.close();
                  });
@@ -66,8 +69,11 @@ block script
       $('#buttonAND').on('click', function(event){
            $("#choosenButton").val("AND");
            var searchTags = $("#searchTags").val();
+           rest.get('/searchForTags/getTags', function(data){
+                   searchTags = '$and,'+searchTags+','+data;
+           });
            if (searchTags != "") {
-                 rest.post('/searchForTags/and',{choosenButton: "AND", searchTags: searchTags}, function(data){
+                 rest.post('/searchForTags/and',{searchTags: searchTags}, function(data){
                        document.write(data);
                        document.close();
                  });
@@ -84,7 +90,7 @@ block script
           $("#choosenButton").val("TEXTO");
           var searchTags = $("#searchTags").val();
           if (searchTags != "") {
-                 rest.post('/searchForTags/texto',{choosenButton: "TEXTO", searchTags: searchTags}, function(data){
+                 rest.post('/searchForTags/texto',{searchTags: searchTags}, function(data){
                        document.write(data);
                        document.close();
                  });
