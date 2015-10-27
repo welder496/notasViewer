@@ -36,53 +36,56 @@ block script
                                 $('#searchTags').tokenfield('setTokens',search);
                         },
                         backgroundColor: '#F8F8F8'
-                 });
+                 })
            });
       });
 
       $('#buttonOR').on('click', function(event){
+           $("#searchButton").val("OR");
            var searchTags = $("#searchTags").val();
            if (searchTags != "") {
-                 rest.post('/searchForTags/or',{choosenButton: "OR", searchTags: searchTags}, function(data){
-                       document.write(data);
-                       document.close();
+                 rest.post('/searchForTags/or',{searchTags: searchTags}, function(page){
+                     document.write(page);
+                     document.close();
                  });
            } else {
-                 rest.post('/searchForTags/', function(data){
-                       document.write(data);
-                       document.close();
+                 rest.post('/searchForTags/', function(page){
+                     document.write(page);
+                     document.close();
                  });
            }
            $("searchTags").focus();
       });
 
       $('#buttonAND').on('click', function(event){
+           $("#searchButton").val("AND");
            var searchTags = $("#searchTags").val();
            if (searchTags != "") {
-                 rest.post('/searchForTags/and',{choosenButton: "AND", searchTags: searchTags}, function(data){
-                       document.write(data);
-                       document.close();
+                 rest.post('/searchForTags/and',{searchTags: searchTags}, function(page){
+                     document.write(page);
+                     document.close();
                  });
            } else {
-                 rest.post('/searchForTags/', function(data){
-                       document.write(data);
-                       document.close();
+                 rest.post('/searchForTags/', function(page){
+                     document.write(page);
+                     document.close();
                  });
            }
            $("searchTags").focus();
       });
 
       $('#buttonTexto').on('click', function(event){
-           var searchTags = $("#searchTags").val();
+          $("#searchButton").val("TEXTO");
+          var searchTags = $("#searchTags").val();
            if (searchTags != "") {
-                 rest.post('/searchForTags/texto',{choosenButton: "TEXTO", searchTags: searchTags}, function(data){
-                       document.write(data);
-                       document.close();
+                 rest.post('/searchForTags/texto',{searchTags: searchTags}, function(page){
+                     document.write(page);
+                     document.close();
                  });
            } else {
-                 rest.post('/searchForTags/', function(data){
-                       document.write(data);
-                       document.close();
+                 rest.post('/searchForTags/', function(page){
+                     document.write(page);
+                     document.close();
                  });
            }
           $("searchTags").focus();

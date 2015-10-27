@@ -28,7 +28,7 @@ var showData = function(res, message, show, data){
 /* GET home page. */
 router.get('/', function(req, res) {
   stack.clear(function(data){});
-  res.render('index', { title: 'Notas' });
+  res.render('index', { title: 'Notas', command: ""});
 });
 
 router.get('/tags', function(req, res){
@@ -44,9 +44,8 @@ router.get('/tags', function(req, res){
       });
 });
 
-router.post('/', function(req, res){
-      res.render('searchForTags');
+router.post('/', function(req, res, next){
+      res.redirect('/searchForTags');
 });
-
 
 module.exports = router;

@@ -5,12 +5,6 @@ block css
    link(rel='stylesheet' href='/stylesheets/datatables/media/css/jquery.dataTables.css')
    link(rel='stylesheet' href='/stylesheets/tokenfield/css/bootstrap-tokenfield.css')
    script(src='/stylesheets/datatables/media/js/jquery.js')
-   script.
-      if (#{show}) {
-         $(document).ready(function(){
-            $('#modalTags').modal({backdrop: 'static', show: true});
-         });
-      }
 
 block content
    div.row
@@ -38,8 +32,9 @@ block script
    script(src='/stylesheets/datatables/media/js/jquery.dataTables.js')
    script(src='/javascripts/componentsInit/tables.js')
    script.
+
       $(window).on('resize',function(){
-           location.reload();
+          location.reload();
       });
 
       $(window).on('load',function(event){
@@ -47,39 +42,31 @@ block script
       });
 
       $('#buttonOR').on('click', function(event){
-           $("#choosenButton").val("OR");
            var searchTags = $("#searchTags").val();
-           rest.get('/searchForTags/getTags', function(data){
-                   searchTags = '$or,'+searchTags+','+data;
-           });
            if (searchTags != "") {
-                 rest.post('/searchForTags/or',{searchTags: searchTags}, function(data){
-                       document.write(data);
+                 rest.post('/searchForTags/or',{searchTags: searchTags}, function(page){
+                       document.write(page);
                        document.close();
                  });
            } else {
-                 rest.post('/searchForTags/', function(data){
-                       document.write(data);
+                rest.post('/searchForTags/', function(page){
+                       document.write(page);
                        document.close();
-                 });
+                });
            }
            $("searchTags").focus();
       });
 
       $('#buttonAND').on('click', function(event){
-           $("#choosenButton").val("AND");
            var searchTags = $("#searchTags").val();
-           rest.get('/searchForTags/getTags', function(data){
-                   searchTags = '$and,'+searchTags+','+data;
-           });
            if (searchTags != "") {
-                 rest.post('/searchForTags/and',{searchTags: searchTags}, function(data){
-                       document.write(data);
+                 rest.post('/searchForTags/and',{searchTags: searchTags}, function(page){
+                       document.write(page);
                        document.close();
                  });
            } else {
-                 rest.post('/searchForTags/', function(data){
-                       document.write(data);
+                 rest.post('/searchForTags/', function(page){
+                       document.write(page);
                        document.close();
                  });
            }
@@ -87,8 +74,7 @@ block script
       });
 
       $('#buttonTexto').on('click', function(event){
-          $("#choosenButton").val("TEXTO");
-          var searchTags = $("#searchTags").val();
+          searchTags = $("#searchTags").val();
           if (searchTags != "") {
                  rest.post('/searchForTags/texto',{searchTags: searchTags}, function(data){
                        document.write(data);
@@ -111,47 +97,46 @@ block script
       */
 
       $("#searchTags").on('tokenfield:createtoken', function(event){
-          var existingTokens = $(this).tokenfield('getTokens');
-          $.each(existingTokens, function(index, token){
-                if (token.value === event.attrs.value) {
-                    event.preventDefault();
-                }
-          });
+            var existingTokens = $(this).tokenfield('getTokens');
+            $.each(existingTokens, function(index, token){
+                 if (token.value === event.attrs.value) {
+                       event.preventDefault();
+                 }
+            });
       });
 
       $(".btn.btn-default.btn-xs").on('click',function(event){
-          $("#searchTags").tokenfield();
-          var search = $("#searchTags").val()+","+$(this).attr('id');
-          if (search[0]==',')
-              search = search.substring(1,(search.length));
-          $('#searchTags').tokenfield('setTokens',search);
+            $("#searchTags").tokenfield();
+            var search = $("#searchTags").val()+","+$(this).attr('id');
+            if (search[0]==',')
+                 search = search.substring(1,(search.length));
+            $('#searchTags').tokenfield('setTokens',search);
       });
 
       $("#tableTags").on('click','a',function(event){
-         var codigo = $(this).attr('id');
-         var value = $(this).attr('value');
-         rest.post('/documents',{codigo: codigo, value: value},function(data){
-               window.open(data,'_blank','top=200,left=200,toolbar=no,resizable=yes,scrollbars=no,width=800,height=600');
-         });
+            var codigo = $(this).attr('id');
+            var value = $(this).attr('value');
+            rest.post('/documents',{codigo: codigo, value: value},function(data){
+                 window.open(data,'_blank','top=200,left=200,toolbar=no,resizable=yes,scrollbars=no,width=800,height=600');
+            });
       });
 
       $(document).on('keydown',function(event){
-             var search = $("#searchTags").val();
-             var key = event.which || event.keyCode;
-             if (key == 97) {
-                rest.post('/searchForTags', {choosenButton: 'OR', searchTags: search} ,function(data){
-                        document.write(data);
-                        document.close();
-                        $("#searchTags").focus();
-                });
-             }
-             if (key == 98) {
-                rest.post('/searchForTags', {choosenButton: 'AND', searchTags: search} ,function(data){
-                        document.write(data);
-                        document.close();
-                        $("#searchTags").focus();
-                });
-             }
+            var searchTags = $("#searchTags").val();
+            var key = event.which || event.keyCode;
+            if (key == 97) {
+                 rest.post('/searchForTags/or', {searchTags: searchTags} ,function(data){
+                       document.write(data);
+                       document.close();
+                 });
+            }
+            if (key == 98) {
+                 rest.post('/searchForTags/and', {searchTags: searchTags} ,function(data){
+                       document.write(data);
+                       document.close();
+                 });
+            }
+            $("#searchTags").focus();
       });
 
       /*
