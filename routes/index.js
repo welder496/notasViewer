@@ -27,8 +27,8 @@ var showData = function(res, message, show, data){
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  stack.clear(function(data){});
-  res.render('index', { title: 'Notas', command: ""});
+      stack.clear(function(data){});
+      res.render('index', { title: 'Notas', command: ""});
 });
 
 router.get('/tags', function(req, res){
@@ -45,7 +45,17 @@ router.get('/tags', function(req, res){
 });
 
 router.post('/', function(req, res, next){
-      res.redirect('/searchForTags');
+      var searchTags = encodeURIComponent(req.body.searchTags);
+      rest.post('http://localhost:8090/searchForTags', {
+         multipart: true,
+         data: {searchTags: searchTags}
+      })
+      .on('success', function(data, response){
+            res.send(data);
+      })
+      .on('error', function(err, response){
+            res.send(err);
+      });
 });
 
 module.exports = router;

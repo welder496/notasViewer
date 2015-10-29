@@ -41,7 +41,6 @@ block script
       });
 
       $('#buttonOR').on('click', function(event){
-           $("#searchButton").val("OR");
            var searchTags = $("#searchTags").val();
            if (searchTags != "") {
                  rest.post('/searchForTags/or',{searchTags: searchTags}, function(page){
@@ -58,7 +57,6 @@ block script
       });
 
       $('#buttonAND').on('click', function(event){
-           $("#searchButton").val("AND");
            var searchTags = $("#searchTags").val();
            if (searchTags != "") {
                  rest.post('/searchForTags/and',{searchTags: searchTags}, function(page){
@@ -75,7 +73,6 @@ block script
       });
 
       $('#buttonTexto').on('click', function(event){
-          $("#searchButton").val("TEXTO");
           var searchTags = $("#searchTags").val();
            if (searchTags != "") {
                  rest.post('/searchForTags/texto',{searchTags: searchTags}, function(page){
@@ -101,18 +98,18 @@ block script
       });
 
       $(document).on('keydown',function(event){
-             var search = $("#searchTags").val();
+             var searchTags = $("#searchTags").val();
              var key = event.which || event.keyCode;
              if (key == 97) {
-                rest.post('/searchForTags/or', {choosenButton: 'OR', searchTags: search} ,function(data){
-                        document.write(data);
+                rest.post('/searchForTags/or', {searchTags: searchTags} ,function(page){
+                        document.write(page);
                         document.close();
                         $("#searchTags").focus();
                 });
              }
              if (key == 98) {
-                rest.post('/searchForTags/and', {choosenButton: 'AND', searchTags: search} ,function(data){
-                        document.write(data);
+                rest.post('/searchForTags/and', {searchTags: searchTags} ,function(page){
+                        document.write(page);
                         document.close();
                         $("#searchTags").focus();
                 });

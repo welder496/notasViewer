@@ -4,7 +4,6 @@ var notasRest = require('notasrest');
 var tags = require('./tags');
 var arquivos = require('./arquivos');
 var stack = require('localstack');
-//var stackCopy = [];
 
 var parseData = function(counter,str){
       var txt = "";
@@ -12,11 +11,11 @@ var parseData = function(counter,str){
             stack.pop(function(data){
                  var opr = data;
                  if (opr.indexOf('$') != -1) {
-                      txt = parseData(counter+1, txt);
-                      str = str + 'op'+(counter+1)+'='+opr+"&"+txt;
-                      return;
+                       txt = parseData(counter+1, txt);
+                       str = str + 'op'+(counter+1)+'='+opr+"&"+txt;
+                       return;
                  } else {
-                      str = str + "tags"+counter+"="+opr+"&";
+                       str = str + "tags"+counter+"="+opr+"&";
                  }
             });
       }
@@ -58,7 +57,7 @@ router.get('/', function(req, res) {
 router.post('/or', function(req, res){
       var show = 'false';
       var message = "";
-      var searchTags = req.body.searchTags;
+      var searchTags = decodeURIComponent(req.body.searchTags);
       pushData(searchTags);
       stack.push('$or',function(data){});
       stack.copy();
@@ -77,7 +76,7 @@ router.post('/or', function(req, res){
 router.post('/and', function(req, res){
       var show = 'false';
       var message = "";
-      var searchTags = req.body.searchTags;
+      var searchTags = decodeURIComponent(req.body.searchTags);
       pushData(searchTags);
       stack.push('$and',function(data){});
       stack.copy();
@@ -96,7 +95,7 @@ router.post('/and', function(req, res){
 router.post('/texto', function(req, res){
       var message = "";
       var show = 'false';
-      var searchTags = req.body.searchTags;
+      var searchTags = decodeURIComponent(req.body.searchTags);
       if ((typeof(searchTags) != "undefined" && searchTags)){
            notasRest.getNotasLike(searchTags, function(data){
                  if (data.hasOwnProperty('message')) {
@@ -112,7 +111,6 @@ router.post('/texto', function(req, res){
 router.post('/', function(req, res) {
       var message = "";
       var show = 'false';
-      stack.clear(function(data){});
       notasRest.getFirstNotas(function(data){
            if (data.hasOwnProperty('message')) {
                  message = data.message;

@@ -2,8 +2,8 @@ extends layout
 
 block css
    link(rel='stylesheet' href='/stylesheets/jquery-ui/jquery-ui.css')
-   link(rel='stylesheet' href='/stylesheets/datatables/media/css/jquery.dataTables.css')
    link(rel='stylesheet' href='/stylesheets/tokenfield/css/bootstrap-tokenfield.css')
+   link(rel='stylesheet' href='/stylesheets/datatables/media/css/jquery.dataTables.css')
    script(src='/stylesheets/datatables/media/js/jquery.js')
 
 block content
@@ -27,18 +27,13 @@ block content
             .modal-footer
                button.btn.btn-default(type="button" data-dismiss="modal") Fechar
 block script
-   script(src='/stylesheets/tokenfield/bootstrap-tokenfield.js')
-   script(src='/javascripts/componentsInit/tokenfields.js')
    script(src='/stylesheets/datatables/media/js/jquery.dataTables.js')
    script(src='/javascripts/componentsInit/tables.js')
+   script(src='/stylesheets/tokenfield/bootstrap-tokenfield.js')
+   script(src='/javascripts/componentsInit/tokenfields.js')
    script.
-
       $(window).on('resize',function(){
           location.reload();
-      });
-
-      $(window).on('load',function(event){
-          $("#searchTags").focus();
       });
 
       $('#buttonOR').on('click', function(event){
@@ -63,38 +58,32 @@ block script
                  rest.post('/searchForTags/and',{searchTags: searchTags}, function(page){
                        document.write(page);
                        document.close();
+                       $("#searchTags").focus();
                  });
            } else {
                  rest.post('/searchForTags/', function(page){
                        document.write(page);
                        document.close();
+                       $("#searchTags").focus();
                  });
            }
-           $("searchTags").focus();
       });
 
       $('#buttonTexto').on('click', function(event){
           searchTags = $("#searchTags").val();
           if (searchTags != "") {
-                 rest.post('/searchForTags/texto',{searchTags: searchTags}, function(data){
-                       document.write(data);
+                 rest.post('/searchForTags/texto',{searchTags: searchTags}, function(page){
+                       document.write(page);
                        document.close();
                  });
           } else {
-                 rest.post('/searchForTags/', function(data){
-                       document.write(data);
+                 rest.post('/searchForTags/', function(page){
+                       document.write(page);
                        document.close();
                  });
           }
           $("searchTags").focus();
       });
-
-      /*
-      $("#searchTags").on('keyup',function(event){
-         var searchTags = $(this).val().replace(/[^a-zA-Z0-9\-]+/g,'');
-         $(this).val(searchTags.toUpperCase());
-      });
-      */
 
       $("#searchTags").on('tokenfield:createtoken', function(event){
             var existingTokens = $(this).tokenfield('getTokens');
@@ -125,18 +114,19 @@ block script
             var searchTags = $("#searchTags").val();
             var key = event.which || event.keyCode;
             if (key == 97) {
-                 rest.post('/searchForTags/or', {searchTags: searchTags} ,function(data){
-                       document.write(data);
+                 rest.post('/searchForTags/or', {searchTags: searchTags} ,function(page){
+                       document.write(page);
                        document.close();
+                       $("#searchTags").focus();
                  });
             }
             if (key == 98) {
-                 rest.post('/searchForTags/and', {searchTags: searchTags} ,function(data){
-                       document.write(data);
+                 rest.post('/searchForTags/and', {searchTags: searchTags} ,function(page){
+                       document.write(page);
                        document.close();
+                       $("#searchTags").focus();
                  });
             }
-            $("#searchTags").focus();
       });
 
       /*
