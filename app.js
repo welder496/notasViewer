@@ -1,4 +1,6 @@
 var express = require('express');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -21,6 +23,15 @@ app.set('view engine', 'jade');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(session({
+    secret: 'teste',
+    saveUninitialized: false,
+    resave: false,
+    store: new MongoStore({
+          url : "mongodb://localhost/Notas",
+          autoRemove: 'native'
+    })
+}));
 app.use(multer({dest: './uploads/',
   rename: function(fieldname, filename){
     return filename+Date.now();

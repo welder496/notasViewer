@@ -22,6 +22,15 @@ var parseData = function(counter,str){
       return str;
 };
 
+var pushSessionData = function(tags){
+      tags = tags.toString().split(',');
+      tags.forEach(function(data){
+            if (data != "" && typeof(data) != "undefined"){
+                 stack.push(data.trim(), function(data){});
+            }
+      });
+};
+
 var pushData = function(tags){
       tags = tags.split(',');
       tags.forEach(function(data){
@@ -57,11 +66,17 @@ router.get('/', function(req, res) {
 router.post('/or', function(req, res){
       var show = 'false';
       var message = "";
+      if (req.session.stack instanceof Array){
+        req.session.stack.reverse();
+        pushSessionData(req.session.stack);
+      }
       var searchTags = decodeURIComponent(req.body.searchTags);
       pushData(searchTags);
       stack.push('$or',function(data){});
-      stack.copy();
-      stack.pushCopy();
+      req.session.stack = stack.copy();
+      req.session.cookie.expires = new Date(Date.now()+60000);
+      req.session.cookie.maxAge = 60000;
+      req.session.save(function(err){});
       var command="";
       command = parseData(0,command);
       notasRest.getNotasByTags(command.substring(0,command.length-1), function(data){
@@ -76,11 +91,17 @@ router.post('/or', function(req, res){
 router.post('/and', function(req, res){
       var show = 'false';
       var message = "";
+      if (req.session.stack instanceof Array){
+        req.session.stack.reverse();
+        pushSessionData(req.session.stack);
+      }
       var searchTags = decodeURIComponent(req.body.searchTags);
       pushData(searchTags);
       stack.push('$and',function(data){});
-      stack.copy();
-      stack.pushCopy();
+      req.session.stack = stack.copy();
+      req.session.cookie.expires = new Date(Date.now()+60000);
+      req.session.cookie.maxAge = 60000;
+      req.session.save(function(err){});
       var command = "";
       command = parseData(0,command);
       notasRest.getNotasByTags(command.substring(0,command.length-1), function(data){

@@ -28,6 +28,10 @@ var showData = function(res, message, show, data){
 /* GET home page. */
 router.get('/', function(req, res) {
       stack.clear(function(data){});
+      req.session.stack = [];
+      req.session.cookie.expires = new Date(Date.now()+60000);
+      req.session.cookie.maxAge = 60000;
+      req.session.save(function(err){});
       res.render('index', { title: 'Notas', command: ""});
 });
 
