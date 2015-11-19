@@ -37,7 +37,8 @@ app.use(multer({dest: './uploads/',
     return filename+Date.now();
  }
 }));
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 app.use('/', routes);
 app.use('/index', routes);

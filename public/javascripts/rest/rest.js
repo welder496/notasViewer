@@ -1,3 +1,5 @@
+'use strict'
+
 var rest = function($){
 
    var put = function(url, data, callback, type){
