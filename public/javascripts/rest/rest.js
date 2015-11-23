@@ -1,6 +1,5 @@
-'use strict'
-
 var rest = function($){
+   "use strict";
 
    var put = function(url, data, callback, type){
 
@@ -8,7 +7,7 @@ var rest = function($){
                type = type || callback,
                callback = data,
                data = {}
-         }
+         };
 
          return $.ajax({
             url: url,
@@ -17,7 +16,7 @@ var rest = function($){
             data: data,
             contentType: type
          });
-   }
+   };
 
    var del =function(url, data, callback, type){
 
@@ -25,7 +24,7 @@ var rest = function($){
                type = type || callback,
                callback = data,
                data = {}
-         }
+         };
 
          return $.ajax({
             url: url,
@@ -34,7 +33,7 @@ var rest = function($){
             data: data,
             contentType: type
          });
-   }
+   };
 
    var post = function(url, data, callback, type){
 
@@ -42,7 +41,7 @@ var rest = function($){
                type = type || callback,
                callback = data,
                data = {}
-         }
+         };
 
          return $.ajax({
             url: url,
@@ -51,7 +50,7 @@ var rest = function($){
             data: data,
             contentType: type
          });
-   }
+   };
 
    var get = function(url, data, callback, type){
 
@@ -59,7 +58,7 @@ var rest = function($){
                type = type || callback,
                callback = data,
                data = {}
-         }
+         };
 
          return $.ajax({
             url: url,
@@ -68,7 +67,7 @@ var rest = function($){
             data: data,
             contentType: type
          });
-   }
+   };
 
    return {
       put:put,

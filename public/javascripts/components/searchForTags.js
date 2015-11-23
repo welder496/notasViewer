@@ -1,10 +1,13 @@
+(function($){
+      "use strict";
+
       $(window).on('resize',function(){
           location.reload();
       });
 
       $('#buttonOR').on('click', function(event){
            var searchTags = $("#searchTags").val();
-           if (searchTags != "") {
+           if (searchTags !== "") {
                  rest.post('/searchForTags/or',{searchTags: searchTags}, function(page){
                        document.write(page);
                        document.close();
@@ -20,7 +23,7 @@
 
       $('#buttonAND').on('click', function(event){
            var searchTags = $("#searchTags").val();
-           if (searchTags != "") {
+           if (searchTags !== "") {
                  rest.post('/searchForTags/and',{searchTags: searchTags}, function(page){
                        document.write(page);
                        document.close();
@@ -37,7 +40,7 @@
 
       $('#buttonTexto').on('click', function(event){
           searchTags = $("#searchTags").val();
-          if (searchTags != "") {
+          if (searchTags !== "") {
                  rest.post('/searchForTags/texto',{searchTags: searchTags}, function(page){
                        document.write(page);
                        document.close();
@@ -94,14 +97,4 @@
                  });
             }
       });
-
-      /*
-      $("#tableTags").on('click','tr', function(event){
-           var codigo = $('td',this).eq(0).text();
-           var last = document.location.href;
-           rest.post('/show',{codigo: codigo, comando: 'show', lastPage: last}, function(data){
-                  document.write(data);
-                  document.close();
-           });
-      });
-      */
+}(jQuery));

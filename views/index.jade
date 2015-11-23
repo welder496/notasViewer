@@ -3,13 +3,15 @@ extends layout
 block css
    link(rel='stylesheet' href='/stylesheets/jquery-ui.min.css')
    link(rel='stylesheet' href='/stylesheets/bootstrap-tokenfield.min.css')
-   script(src='/javascripts/wordcloud2.min.js')
+   script(src='/javascripts/wordcloud2/wordcloud2.min.js')
 
 block content
    div.container-fluid
       canvas#canvas.img-responsive(width=1150,height=700)
 
 block script
+   script(src='/javascripts/jquery.dataTables.min.js')
+   script(src='/javascripts/componentsInit/tables.min.js')
    script(src='/javascripts/bootstrap-tokenfield.min.js')
-   script(src='/javascripts/tokenfields.min.js')
-   script(src='/javascripts/index.min.js')
+   script(src='/javascripts/componentsInit/tokenfields.min.js')
+   script(src='/javascripts/components/index.min.js')

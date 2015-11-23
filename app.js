@@ -11,7 +11,6 @@ var routes = require('./routes/index');
 var searchForTags = require('./routes/searchForTags');
 var documents = require('./routes/documents');
 var version = require('./routes/version');
-var help = require('./routes/help');
 
 var app = express();
 
@@ -37,15 +36,13 @@ app.use(multer({dest: './uploads/',
     return filename+Date.now();
  }
 }));
-//app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/index', routes);
 app.use('/searchForTags', searchForTags);
 app.use('/documents', documents);
 app.use('/version',version);
-app.use('/help', help);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

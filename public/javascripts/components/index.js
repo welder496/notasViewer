@@ -1,3 +1,6 @@
+(function($){
+      "use strict";
+
       $(window).on('resize',function(){
             location.reload();
       });
@@ -5,7 +8,7 @@
       $(window).on('load',function(event){
            $("#searchTags").focus();
            rest.get('/index/tags',function(data){
-                 WordCloud(document.getElementById('canvas'),
+                 new WordCloud(document.getElementById('canvas'),
                  {list: data,
                         gridSize: 18,
                         weightFactor: 3,
@@ -26,7 +29,7 @@
 
       $('#buttonOR').on('click', function(event){
            var searchTags = $("#searchTags").val();
-           if (searchTags != "") {
+           if (searchTags !== "") {
                  rest.post('/searchForTags/or',{searchTags: searchTags}, function(page){
                      document.write(page);
                      document.close();
@@ -42,7 +45,7 @@
 
       $('#buttonAND').on('click', function(event){
            var searchTags = $("#searchTags").val();
-           if (searchTags != "") {
+           if (searchTags !== "") {
                  rest.post('/searchForTags/and',{searchTags: searchTags}, function(page){
                      document.write(page);
                      document.close();
@@ -58,7 +61,7 @@
 
       $('#buttonTexto').on('click', function(event){
           var searchTags = $("#searchTags").val();
-           if (searchTags != "") {
+           if (searchTags !== "") {
                  rest.post('/searchForTags/texto',{searchTags: searchTags}, function(page){
                      document.write(page);
                      document.close();
@@ -107,3 +110,5 @@
               search = search.substring(1,(search.length));
           $('#searchTags').tokenfield('setTokens',search);
       });
+}(jQuery));
+
