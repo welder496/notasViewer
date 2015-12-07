@@ -13,12 +13,10 @@
     "express-session": "^1.12.1",
     "jade": "^1.11.0",
     "localstack": "^1.0.0",
-    "morgan": "~1.5.1",
-    "multer": "^0.1.8",
     "netconfig": "^1.0.0",
     "notasrest": "^1.0.1",
     "referer-parser": "0.0.3",
-    "restler": "^3.3.0",
+    "restler": "^3.4.0",
     "serve-favicon": "~2.2.0"
   },
   "devDependencies": {

@@ -1,70 +1,73 @@
 $(document).ready( function() {
 
-   $('#tableCodigo').dataTable({
-	"paging": true,
-	"info": false,
-          "ordering": false,
-	"searching": false,
-	"bLengthChange": false,
-	"lengthMenu": [4],
-	"oLanguage" : {
-		"oPaginate":{
-			"sPrevious":"Página Anterior",
-			"sNext":"Próxima Página",
-			"sFirst":"Primeira Página",
-			"sLast":"Última Página"
+   $('#tableCodigo').DataTable({
+        responsive: true,
+	paging: true,
+	info: false,
+         ordering: false,
+	searching: false,
+	bLengthChange: false,
+	lengthMenu: [4],
+	oLanguage : {
+		oPaginate:{
+			sPrevious:"Página Anterior",
+			sNext:"Próxima Página",
+			sFirst:"Primeira Página",
+			sLast:"Última Página"
 		},
-		"sEmptyTable": "A tabela está vazia!!"
+		sEmptyTable: "A tabela está vazia!!"
 	},
-	"aoColumns": [
-	     {"sTitle": "Código","sWidth": "10%"},
-               {"sTitle": "Nota","sWidth": "90%"}
+	aoColumns: [
+	     {sTitle: "Código",sWidth: "10%"},
+               {sTitle: "Nota",sWidth: "90%"}
        ]
    });
 
 
-   $('#tableTags').dataTable({
-	"paging": true,
-	"info": false,
-	"searching": false,
-	"bLengthChange": false,
-         "ordering": false,
-	"lengthMenu": [4],
- 	"oLanguage" : {
-		"oPaginate":{
-			"sPrevious":"Página Anterior",
-			"sNext":"Próxima Página",
-			"sFirst":"Primeira Página",
-			"sLast":"Última Página"
+   $('#tableTags').DataTable({
+        responsive: true,
+	paging: true,
+	info: false,
+	searching: false,
+	bLengthChange: false,
+         ordering: false,
+	lengthMenu: [4],
+ 	oLanguage : {
+		oPaginate:{
+			sPrevious:"Página Anterior",
+			sNext:"Próxima Página",
+			sFirst:"Primeira Página",
+			sLast:"Última Página"
 		},
-		"sEmptyTable": "A tabela está vazia!!"
+		sEmptyTable: "A tabela está vazia!!"
 	},
-	"aoColumns": [
-	        {"sTitle": "Código", "sWidth": "10%"},
-              {"sTitle": "Nota", "sWidth": "90%"}
+	aoColumns: [
+	      {sTitle: "Código", sWidth: "10%"},
+              {sTitle: "Nota", sWidth: "90%"}
         ]
    });
 
 
-   $('#tableNota').dataTable({
-	"paging": true,
-	"info": false,
-	"searching": false,
-       "ordering": false,
-	"bLengthChange": false,
-	"lengthMenu": [4],
-	"oLanguage" : {
-		"oPaginate":{
-			"sPrevious":"Página Anterior",
-			"sNext":"Próxima Página",
-			"sFirst":"Primeira Página",
-			"sLast":"Última Página"
+   $('#tableNota').DataTable({
+         responsive: true,
+        	paging: true,
+	info: false,
+	searching: false,
+         ordering: false,
+	bLengthChange: false,
+	lengthMenu: [4],
+	oLanguage : {
+		oPaginate:{
+			sPrevious:"Página Anterior",
+			sNext:"Próxima Página",
+			sFirst:"Primeira Página",
+			sLast:"Última Página"
 		},
-		"sEmptyTable": "A tabela está vazia!!"
+		sEmptyTable: "A tabela está vazia!!"
 	},
-	"aoColumns": [
-	          {"sTitle": "Código", "sWidth": "10%"},
-                {"sTitle": "Nota", "sWidth": "90%"}
+	aoColumns: [
+	       {sTitle: "Código", sWidth: "10%"},
+                {sTitle: "Nota", sWidth: "90%"}
         ]
    });
 });

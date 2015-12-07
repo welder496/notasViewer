@@ -1,12 +1,12 @@
 var express = require('express');
-var router = express.Router();
+var documents = express.Router({mergeparams: true});
 var notasRest = require('notasrest');
 
-router.get('/', function(req, res, next){
+documents.get('/', function(req, res, next){
    res.end();
 });
 
-router.post('/', function(req, res, next){
+documents.post('/', function(req, res, next){
    var codigo = req.body.codigo;
    var documento = req.body.value;
    var message = '';
@@ -30,4 +30,4 @@ router.post('/', function(req, res, next){
   });
 });
 
-module.exports = router;
+module.exports = documents;

@@ -1,7 +1,6 @@
 $("#searchTags").tokenfield({
-   limit: 10,
+   limit: 20,
    autocomplete: {
-     //source:['Funcional','Não-Funcional','Regra de Negócio'],
      delay: 100
    },
    showAutocompleteOnFocus: true,

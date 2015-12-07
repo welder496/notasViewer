@@ -2,15 +2,11 @@ var express = require('express');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
 var bodyParser = require('body-parser');
-var multer = require('multer');
-
-var routes = require('./routes/index');
+var main = require('./routes/main');
 var searchForTags = require('./routes/searchForTags');
 var documents = require('./routes/documents');
-var version = require('./routes/version');
+var breadcrumb = require('./routes/breadCrumb');
 
 var app = express();
 
@@ -18,31 +14,20 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
     secret: 'teste',
     saveUninitialized: false,
     resave: false,
-    store: new MongoStore({
-          url : "mongodb://localhost/Notas",
-          autoRemove: 'native'
-    })
+    store: new MongoStore({url: 'mongodb://localhost/Notas', autoRemove: 'native'})
 }));
-app.use(multer({dest: './uploads/',
-  rename: function(fieldname, filename){
-    return filename+Date.now();
- }
-}));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
-app.use('/', routes);
-app.use('/index', routes);
+app.use('/', main);
+app.use('/index', main);
 app.use('/searchForTags', searchForTags);
 app.use('/documents', documents);
-app.use('/version',version);
+app.use('/breadcrumb', breadcrumb);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,5 +1,5 @@
 var express = require('express');
-var router = express.Router();
+var searchForTags = express.Router({mergeparams: true});
 var notasRest = require('notasrest');
 var tags = require('./tags');
 var arquivos = require('./arquivos');
@@ -53,7 +53,7 @@ var showData = function(res, message, show, data, command){
 };
 
 /* GET */
-router.get('/', function(req, res) {
+searchForTags.get('/', function(req, res) {
       var message = "";
       var command = "";
       var show = 'false';
@@ -63,16 +63,18 @@ router.get('/', function(req, res) {
       });
 });
 
-router.post('/or', function(req, res){
+var postOr = function(req, res){
       var show = 'false';
       var message = "";
-      if (req.session.stack instanceof Array){
-        req.session.stack.reverse();
-        pushSessionData(req.session.stack);
-      }
       var searchTags = decodeURIComponent(req.body.searchTags);
-      pushData(searchTags);
-      stack.push('$or',function(data){});
+      if (req.session.stack instanceof Array){
+           req.session.stack.reverse();
+           pushSessionData(req.session.stack);
+      }
+      if (searchTags !== "undefined" && searchTags !== "") {
+            pushData(searchTags);
+            stack.push('$or',function(data){});
+      }
       req.session.stack = stack.copy();
       req.session.cookie.expires = new Date(Date.now()+60000);
       req.session.cookie.maxAge = 60000;
@@ -80,28 +82,30 @@ router.post('/or', function(req, res){
       var command="";
       command = parseData(0,command);
       notasRest.getNotasByTags(command.substring(0,command.length-1), function(data){
-           if (data.hasOwnProperty('message')) {
+            if (data.hasOwnProperty('message')) {
                  message = data.message;
                  show = 'true';
-           }
-           showData(res, message, show, data);
+            }
+            showData(res, message, show, data);
       });
-});
+};
 
-router.post('/and', function(req, res){
+var postAnd = function(req, res){
       var show = 'false';
       var message = "";
-      if (req.session.stack instanceof Array){
-        req.session.stack.reverse();
-        pushSessionData(req.session.stack);
-      }
       var searchTags = decodeURIComponent(req.body.searchTags);
-      pushData(searchTags);
-      stack.push('$and',function(data){});
+      if (req.session.stack instanceof Array){
+            req.session.stack.reverse();
+            pushSessionData(req.session.stack);
+      }
+      if (searchTags !== "undefined" && searchTags !== "") {
+           pushData(searchTags);
+           stack.push('$and',function(data){});
+      }
       req.session.stack = stack.copy();
       req.session.cookie.expires = new Date(Date.now()+60000);
       req.session.cookie.maxAge = 60000;
-      req.session.save(function(err){});
+      req.session.save(function(){});
       var command = "";
       command = parseData(0,command);
       notasRest.getNotasByTags(command.substring(0,command.length-1), function(data){
@@ -111,9 +115,9 @@ router.post('/and', function(req, res){
            }
            showData(res, message, show, data);
       });
-});
+}
 
-router.post('/texto', function(req, res){
+var postTexto = function(req,res){
       var message = "";
       var show = 'false';
       var searchTags = decodeURIComponent(req.body.searchTags);
@@ -126,10 +130,9 @@ router.post('/texto', function(req, res){
                  showData(res, message, show, data);
            });
       }
-});
+};
 
-/* POST */
-router.post('/', function(req, res) {
+var postNothing = function(req, res){
       var message = "";
       var show = 'false';
       notasRest.getFirstNotas(function(data){
@@ -139,6 +142,49 @@ router.post('/', function(req, res) {
            }
            showData(res, message, show, data);
       });
+};
+
+/* POST */
+searchForTags.post('/', function(req, res) {
+      var searchTags = req.body.searchTags;
+      var button = req.body.button;
+      if (button === "OR" && searchTags !== ""){
+         postOr(req, res);
+      } else
+      if (button === "AND" && searchTags !== ""){
+         postAnd(req, res);
+      } else
+      if (button === "TEXTO" && searchTags !== ""){
+         postTexto(req, res);
+      } else {
+         postNothing(req,res);
+      }
 });
 
-module.exports = router;
+searchForTags.get('/subsearch/:value', function(req, res){
+      var value = req.params.value;
+      var stack = req.session.stack;
+      var substack = [];
+      for (var i = (stack.length - value); i < stack.length ; i++){
+           substack.push(stack[i]);
+      }
+      req.session.stack = [];
+      req.session.stack = substack;
+      req.session.cookie.expires = new Date(Date.now()+60000);
+      req.session.cookie.maxAge = 60000;
+      req.session.save(function(err){});
+      if (substack[0] === "$or")
+            postOr(req, res);
+      if (substack[0] === "$and")
+            postAnd(req, res);
+});
+
+searchForTags.post('/clean', function(req, res){
+      stack.clear(function(data){});
+      req.session.stack = [];
+      req.session.cookie.expires = new Date(Date.now()+60000);
+      req.session.cookie.maxAge = 60000;
+      req.session.save(function(err){});
+});
+
+module.exports = searchForTags;

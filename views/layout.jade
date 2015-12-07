@@ -8,26 +8,30 @@ html
     block css
   body
     div.container
-      nav.navbar.navbar-default
-         div.container-fluid
-            div.navbar-header
-               a.navbar-brand(href="/index") Notas
-         div.container-fluid
-            form(role="form" method="post")
-               div.col-sm-12.span12
-                  div.form-group
-                     div.input-group
+       nav.navbar.navbar-default
+          div.navbar-header
+             button.navbar-toggle(type="button" data-toggle="collapse" data-target="#target-menu")
+                span.sr-only
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+             a.navbar-brand(href="/index") Notas
+          div#target-menu.collapse.navbar-collapse
+              form.navbar-form(role="form" method="post" action="/searchForTags")
+                 div.form-group(style="display:inline;")
+                    div.col-sm-11.input-group(style="display:table;")
                         input#searchTags.form-control(type="text" name="searchTags" placeholder="Insira uma tag para pesquisar!!")
                         span.input-group-btn
-                            button#buttonOR.btn.btn-default Ou
-                            button#buttonAND.btn.btn-default E
-                            button#buttonTexto.btn.btn-default Texto
-      block content
+                           button#OR.btn.btn-default(type="submit" name="button" value="OR") Ou
+                           button#AND.btn.btn-default(type="submit" name="button" value="AND") E
+                           button#TEXTO.btn.btn-default(type="submit" name="button" value="TEXTO") Texto
+              div.navbar-header
+                 ol#breadcrumb.breadcrumb
+       block content
 
     script(src='/javascripts/jquery-2.1.3.min.js')
     script(src='/javascripts/jquery-ui.min.js')
     script(src='/javascripts/bootstrap.min.js')
-    script(src='/javascripts/components/changeNavBar.min.js')
     script(src='/javascripts/rest/rest.min.js')
 
     block script

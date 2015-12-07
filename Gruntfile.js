@@ -58,8 +58,7 @@ module.exports = function(grunt) {
                 '-W064': false, //Constructor warning
            },
            src: ['!Gruntfile.js','<%= jsDistDir %>/rest/rest.min.js',
-                   '!<%= jsDistDir %>/components/searchForTags.min.js',
-                   '<%= jsDistDir %>/components/index.min.js']
+                  '<%= jsDistDir %>/components/index.min.js']
       },
     },
     clean: {
