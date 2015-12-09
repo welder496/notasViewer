@@ -23,6 +23,7 @@ var parseData = function(counter,str){
 };
 
 var pushSessionData = function(tags){
+      tags = decodeURIComponent(tags);
       tags = tags.toString().split(',');
       tags.forEach(function(data){
             if (data != "" && typeof(data) != "undefined"){
@@ -32,6 +33,7 @@ var pushSessionData = function(tags){
 };
 
 var pushData = function(tags){
+      tags = decodeURIComponent(tags);
       tags = tags.split(',');
       tags.forEach(function(data){
             if (data != "" && typeof(data) != "undefined"){
@@ -57,6 +59,10 @@ searchForTags.get('/', function(req, res) {
       var message = "";
       var command = "";
       var show = 'false';
+      req.session.stack = [];
+      req.session.cookie.expires = new Date(Date.now()+60000);
+      req.session.cookie.maxAge = 60000;
+      req.session.save(function(){});
       stack.clear(function(data){});
       notasRest.getFirstNotas(function(data){
             showData(res, message, show, data, command);
@@ -66,7 +72,7 @@ searchForTags.get('/', function(req, res) {
 var postOr = function(req, res){
       var show = 'false';
       var message = "";
-      var searchTags = decodeURIComponent(req.body.searchTags);
+      var searchTags = encodeURIComponent(req.body.searchTags);
       if (req.session.stack instanceof Array){
            req.session.stack.reverse();
            pushSessionData(req.session.stack);
@@ -93,7 +99,7 @@ var postOr = function(req, res){
 var postAnd = function(req, res){
       var show = 'false';
       var message = "";
-      var searchTags = decodeURIComponent(req.body.searchTags);
+      var searchTags = encodeURIComponent(req.body.searchTags);
       if (req.session.stack instanceof Array){
             req.session.stack.reverse();
             pushSessionData(req.session.stack);
@@ -120,7 +126,12 @@ var postAnd = function(req, res){
 var postTexto = function(req,res){
       var message = "";
       var show = 'false';
-      var searchTags = decodeURIComponent(req.body.searchTags);
+      var searchTags = encodeURIComponent(req.body.searchTags);
+      req.session.stack = [];
+      req.session.cookie.expires = new Date(Date.now()+60000);
+      req.session.cookie.maxAge = 60000;
+      req.session.save(function(){});
+      stack.clear(function(data){});
       if ((typeof(searchTags) != "undefined" && searchTags)){
            notasRest.getNotasLike(searchTags, function(data){
                  if (data.hasOwnProperty('message')) {
@@ -135,6 +146,11 @@ var postTexto = function(req,res){
 var postNothing = function(req, res){
       var message = "";
       var show = 'false';
+      req.session.stack = [];
+      req.session.cookie.expires = new Date(Date.now()+60000);
+      req.session.cookie.maxAge = 60000;
+      req.session.save(function(){});
+      stack.clear(function(data){});
       notasRest.getFirstNotas(function(data){
            if (data.hasOwnProperty('message')) {
                  message = data.message;
@@ -163,20 +179,27 @@ searchForTags.post('/', function(req, res) {
 
 searchForTags.get('/subsearch/:value', function(req, res){
       var value = req.params.value;
-      var stack = req.session.stack;
       var substack = [];
-      for (var i = (stack.length - value); i < stack.length ; i++){
-           substack.push(stack[i]);
+      if (typeof(req.session) !== "undefined") {
+            var stack = req.session.stack;
+            if (typeof(stack) !== "undefined") {
+                 for (var i = (stack.length - value); i < stack.length ; i++){
+                       substack.push(stack[i]);
+                 }
+            }
       }
-      req.session.stack = [];
       req.session.stack = substack;
       req.session.cookie.expires = new Date(Date.now()+60000);
       req.session.cookie.maxAge = 60000;
       req.session.save(function(err){});
-      if (substack[0] === "$or")
+      if (substack[0] === "$or") {
             postOr(req, res);
-      if (substack[0] === "$and")
-            postAnd(req, res);
+      } else
+      if (substack[0] === "$and") {
+           postAnd(req, res);
+      } else {
+         res.redirect('/index');
+      }
 });
 
 searchForTags.post('/clean', function(req, res){
