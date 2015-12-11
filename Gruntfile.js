@@ -13,7 +13,7 @@ module.exports = function(grunt) {
     cssDistDir: 'dist/public/stylesheets',
     distDir: 'dist',
     pkg: grunt.file.readJSON('package.json'),
-    machine: grunt.file.readJSON('machine.json');
+    machine: grunt.file.readJSON('machine.json'),
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> <%=grunt.template.today("dd-mm-yyyy") %> */\n'
