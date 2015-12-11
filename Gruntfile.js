@@ -116,10 +116,19 @@ module.exports = function(grunt) {
                  }
            ]
       }
-
-                       //   ,'views/**/*.jade','node_modules/**','!node_modules/grunt-contrib-*','*.js','bin/www','!Gruntfile.js'], dest: 'dist/'},
-                      // {expand: true, flatten: true, src: ['public/stylesheets/**/*.min.css'], dest: 'dist/public/stylesheets'},
-                      // {expand: true, flatten: true, src: ['public/stylesheets/**/*.min.js'], dest: 'dist/public/javascripts'}
+    },
+    sshconfig: {
+       "host": grunt.file.readJSON("machine.json")
+    },
+    sshexec : {
+       deploy : {
+           command: ['cd notasViewer',
+                             'ls'
+                            ].join(' && '),
+           options: {
+                 config: "host"
+           }
+       }
     }
   });
 
@@ -131,6 +140,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-ssh');
 
   grunt.registerTask('min', ['uglify','watch']);
 
@@ -141,5 +151,7 @@ module.exports = function(grunt) {
   grunt.registerTask('run', ['nodemon']);
 
   grunt.registerTask('build','Compiles all of the assets in project notasViewer', ['clean','uglify','cssmin','copy']);
+
+  grunt.registerTask('deploy','sends app to...', ['sshexec:deploy']);
 
 };

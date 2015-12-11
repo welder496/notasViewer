@@ -1,4 +1,5 @@
 #ignore these files or directories
 
+machine.json
 /uploads
 /dist
