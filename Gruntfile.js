@@ -119,7 +119,7 @@ module.exports = function(grunt) {
       }
     },
     sshconfig: {
-       "host": machine
+       "host": grunt.file.readJSON('machine.json')
     },
     sftp: {
        deploy : {
@@ -138,29 +138,25 @@ module.exports = function(grunt) {
        remove : {
           command: "rm -rf notasViewer",
           options: {
-                config: "host",
-                ignoreErrors: true
+                config: "host"
           }
        },
        start: {
            command: "forever start /home/<%= machine.username %>/notasViewer/bin/www",
            options: {
-                config: "host",
-                ignoreErrors: true
+                config: "host"
            }
        },
        stop: {
            command: "forever stop /home/<%= machine.username %>/notasViewer/bin/www",
            options: {
-                config: "host",
-                ignoreErrors: true
+                config: "host"
            }
        },
        make: {
             command: "mkdir notasViewer",
             options: {
-                 config: "host",
-                 ignoreErrors: true
+                 config: "host"
             }
        },
        change: {
@@ -193,5 +189,9 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy','sends app to the server', ['sshexec:stop','sshexec:remove',
     'sshexec:make','sshexec:change','sftp:deploy','sshexec:start']);
+
+  grunt.registerTask('start', 'start remote', ['sshexec:start']);
+
+  grunt.registerTask('stop', 'stop remote', ['sshexec:stop']);
 
 };
