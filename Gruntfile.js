@@ -13,6 +13,7 @@ module.exports = function(grunt) {
     cssDistDir: 'dist/public/stylesheets',
     distDir: 'dist',
     pkg: grunt.file.readJSON('package.json'),
+    machine: grunt.file.readJSON('machine.json');
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> <%=grunt.template.today("dd-mm-yyyy") %> */\n'
@@ -118,21 +119,59 @@ module.exports = function(grunt) {
       }
     },
     sshconfig: {
-       "host": grunt.file.readJSON("machine.json")
+       "host": machine
+    },
+    sftp: {
+       deploy : {
+           files: {
+                "./" : "dist/**"
+           },
+           options: {
+                config: "host",
+                path: '/home/<%= machine.username %>/notasViewer',
+                srcBasePath: "dist/",
+                createDirectories: true
+           }
+       }
     },
     sshexec : {
-       deploy : {
-           command: ['cd notasViewer',
-                             'ls'
-                            ].join(' && '),
+       remove : {
+          command: "rm -rf notasViewer",
+          options: {
+                config: "host",
+                ignoreErrors: true
+          }
+       },
+       start: {
+           command: "forever start /home/<%= machine.username %>/notasViewer/bin/www",
            options: {
-                 config: "host"
+                config: "host",
+                ignoreErrors: true
            }
+       },
+       stop: {
+           command: "forever stop /home/<%= machine.username %>/notasViewer/bin/www",
+           options: {
+                config: "host",
+                ignoreErrors: true
+           }
+       },
+       make: {
+            command: "mkdir notasViewer",
+            options: {
+                 config: "host",
+                 ignoreErrors: true
+            }
+       },
+       change: {
+            command: "cd notasViewer",
+            options: {
+                 config: "host"
+            }
        }
     }
   });
 
-  //grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -152,6 +191,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build','Compiles all of the assets in project notasViewer', ['clean','uglify','cssmin','copy']);
 
-  grunt.registerTask('deploy','sends app to...', ['sshexec:deploy']);
+  grunt.registerTask('deploy','sends app to the server', ['sshexec:stop','sshexec:remove',
+    'sshexec:make','sshexec:change','sftp:deploy','sshexec:start']);
 
 };
