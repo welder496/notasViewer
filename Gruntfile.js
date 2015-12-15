@@ -128,7 +128,7 @@ module.exports = function(grunt) {
            },
            options: {
                 config: "host",
-                path: '/home/<%= machine.username %>/notasViewer',
+                path: '/home/<%= machine.username %>/<%= pkg.name %>',
                 srcBasePath: "dist/",
                 createDirectories: true
            }
@@ -136,31 +136,37 @@ module.exports = function(grunt) {
     },
     sshexec : {
        remove : {
-          command: "rm -rf notasViewer",
+          command: "rm -rf <%= pkg.name %>",
           options: {
                 config: "host"
           }
        },
        start: {
-           command: "forever start /home/<%= machine.username %>/notasViewer/bin/www",
+           command: [
+                 'cd <%= pkg.name %>',
+                 'forever start ./bin/www'].
+           join(' && '),
            options: {
                 config: "host"
            }
        },
        stop: {
-           command: "forever stop /home/<%= machine.username %>/notasViewer/bin/www",
+           command: [
+                 'cd <%= pkg.name %>',
+                 'forever stop ./bin/www'].
+           join(' && '),
            options: {
                 config: "host"
            }
        },
        make: {
-            command: "mkdir notasViewer",
+            command: "mkdir <%= pkg.name %>",
             options: {
                  config: "host"
             }
        },
        change: {
-            command: "cd notasViewer",
+            command: "cd <%= pkg.name %>",
             options: {
                  config: "host"
             }
