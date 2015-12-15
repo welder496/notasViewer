@@ -170,6 +170,19 @@ module.exports = function(grunt) {
             options: {
                  config: "host"
             }
+       },
+       removes: {
+            command: [
+              'cd /home/<%= machine.username %>/<%= pkg.name %>/public/stylesheets',
+              'rm -rf datatables',
+              'rm -rf jquery',
+              'rm -rf jquery-ui',
+              'rm -rf tokenfield'
+            ].join(' && '),
+            options: {
+                 config: "host",
+                 ignoreErrors: true
+            }
        }
     }
   });
@@ -194,7 +207,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build','Compiles all of the assets in project notasViewer', ['clean','uglify','cssmin','copy']);
 
   grunt.registerTask('deploy','sends app to the server', ['sshexec:stop','sshexec:remove',
-    'sshexec:make','sshexec:change','sftp:deploy','sshexec:start']);
+    'sshexec:make','sshexec:change','sftp:deploy','sshexec:removes','sshexec:start']);
 
   grunt.registerTask('start', 'start remote', ['sshexec:start']);
 
