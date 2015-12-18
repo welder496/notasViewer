@@ -7,6 +7,7 @@ var main = require('./routes/main');
 var searchForTags = require('./routes/searchForTags');
 var documents = require('./routes/documents');
 var breadcrumb = require('./routes/breadCrumb');
+var help = require('./routes/help');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use('/index', main);
 app.use('/searchForTags', searchForTags);
 app.use('/documents', documents);
 app.use('/breadcrumb', breadcrumb);
+app.use('/help', help);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

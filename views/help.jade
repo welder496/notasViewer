@@ -1,0 +1,280 @@
+extends layout
+
+block content
+  div.panel.panel-default
+     div.panel-heading
+         p#menu <strong>Tópicos gerais</strong>
+     div.panel-body
+         ol
+            li
+               a(href='#notasViewer') Estrutura do notasViewer
+            li
+               a(href='#nota') Estrutura de uma Nota
+            li
+               a(href='#incremental') Pesquisa Incremental
+            li
+               a(href='#exemploIncremental') Exemplo de uso de pesquisa incremental
+            li
+               a(href='#pesquisando') Pesquisando no notasViewer
+            li
+               a(href='#visualizando') Visualizando as últimas vinte notas cadastradas no sistema
+            li
+               a(href='#tagsPesquisaEmAndamento') Usando TAGs de uma pesquisa em andamento
+            li
+               a(href='#pesquisaAnterior')  Retornar a uma pesquisa anterior
+            li
+               a(href='#pesquisaE') Pesquisa usando o botão E para duas tags selecionadas
+            li
+               a(href='/videos/CapacidadesGeraisNotasViewer.mp4') Capacidades gerais do notasViewer
+                  span &nbsp&nbsp
+                     span.glyphicon.glyphicon-facetime-video
+            li
+               a(href='/videos/PesquisaNotasViewerIniciando.mp4') Iniciando pesquisa no notasViewer
+                  span &nbsp&nbsp
+                     span.glyphicon.glyphicon-facetime-video
+            li
+               a(href='/videos/PesquisaNotasViewerPerdaDeSessao.mp4') Perda de sessão em uma pesquisa no notasViewer
+                  span &nbsp&nbsp
+                     span.glyphicon.glyphicon-facetime-video
+            li
+               a(href='/videos/PesquisaNotasViewerOUeE.mp4') Pesquisa com os operadores lógicos E ou OU
+                  span &nbsp&nbsp
+                     span.glyphicon.glyphicon-facetime-video
+            li
+               a(href='/videos/PesquisaNotasViewerPerfilAdministradorRegraDeNegocio.mp4') Exemplo de pesquisa com as TAGs Perfil:Administrador e Regra de Negócios
+                  span &nbsp&nbsp
+                     span.glyphicon.glyphicon-facetime-video
+            li
+               a(href='/videos/PesquisaNotasViewerComTexto.mp4') Pesquisa no notasViewer com Texto
+                  span &nbsp&nbsp
+                     span.glyphicon.glyphicon-facetime-video
+
+
+  div.panel.panel-default
+     div.panel-heading
+         p#notasViewer <strong>Estrutura do notasViewer</strong>
+     div.panel-body
+         |  O notasViewer é dividido em duas telas: principal e pesquisa. A tela principal
+         |  é aquela que possui o mapa de tags. A tela de pesquisa mostra o resultado da pesquisa
+         |  iniciada na tela principal (mapa de tags) permitindo a continuidade de uma pesquisa.
+         |  Observe a tela principal na figura a seguir: </br></br>
+         img.img-responsive(src="/images/NuvemTags-notasViewer-Teste.jpg")
+         |  </br></br>A figura anterior possui 6 números na cor vermelha, que indicam os elementos
+         |  encontrados nesta tela. São eles:
+         ol
+            li
+               |  Link usado para reiniciar a nuvem de tags ou para iniciar uma nova pesquisa. Toda vez que a
+               |  mesma for clicada, a nuvem de tags apresentará os elementos em uma disposição diferente
+               |  da anterior e será iniciada uma nova pesquisa.
+            li
+               |  Caixa de pesquisa que pode apresentar cada TAG clicada no item (6) - Nuvem de TAGs ou
+               |  também um termo ou texto.
+            li
+               |  <strong>OU</strong> - Realiza uma operação lógica "ou" entre as tags apresentadas
+               |  até que o botão OU seja clicado;
+            li
+               |  <strong>E</strong> - Realiza uma operação lógica "e" entre as tags apresentadas até
+               |  que o botão E seja clicado;
+            li
+               |  <strong>Texto</strong> ﻿﻿- ﻿﻿﻿﻿Realiza uma pesquisa com o termo a ser apresentado na caixa
+               |  de pesquisa.
+               |  <strong>Observação:</strong> deve-se usar, neste caso, um único termo, já que o sistema
+               |  tem como prioridade o uso de tags.
+            li
+               |  <strong>Núvem de TAGs:</strong> ﻿﻿apresenta o conjunto de tags com maior uso no sistema.
+               |  Observe que existem tags com letras maiores e mais "reforçadas" que outras. Por exemplo:
+               |  Perfil: Administrador e Perfil: Diretor de Secretaria. ﻿﻿A primeira tag é maior que a última.
+               |  Isto significa que a tag
+               |  <strong>Perfil: Administrador</strong> é mais utilizada do que a outra e esta informação
+               |  pode favorecer uma possível pesquisa.
+         |  A seguir um exemplo da tela de pesquisa (resultados da pesquisa) </br></br></br>
+         img.img-responsive(src="/images/ResultadoPesquisaCasoDeUsoEPerfilUsuario-Teste.jpg")
+         |  </br></br>Desta forma, essas duas telas serão as telas com as quais o usuário irá trabalhar no sistema.</br></br>
+         button.btn.btn-default
+            a(href='#menu') Voltar
+
+  div.panel.panel-default
+     div.panel-heading
+         p#nota <strong>Estrutura de uma nota</strong>
+     div.panel-body
+         |  A cada pesquisa realizada pelo usuário no sistema é disponibilizado um conjunto
+         |  de notas que contém informações acerca do termo pesquisa. Uma nota possui uma estrutura, tal como
+         |  apresentada a seguir: </br></br></br>
+         img.img-responsive(src="/images/EstruturaNota-Teste.jpg")
+         |  </br></br>Estrutura de uma nota do sistema notasViewer:</br></br>
+         ul
+            li
+               |  Toda nota cadastrada possui um código gerado em outro sistema. O código deste exemplo
+               |  está marcado com verde (caixa verde).
+            li
+               |  O conteúdo ou descrição da nota encontra-se dentro da caixa em azul.
+               |  No exemplo acima (figura), é apresentado o nome de um caso de uso
+               |  junto com a sua descrição.
+            li
+               |  Cada nota pode possuir arquivos associados. O sistema suporta pdfs, imagens e vídeos.
+               |  Se uma nota possuir arquivos, eles irão aparecer nesta seção, caso contrário,
+               |  o sistema não apresenta esta seção. A seção Arquivos está localizada dentro da caixa
+               |  em vermelho.
+            li
+               |  Cada nota possui tags associadas. No exemplo (figura) elas estão localizadas dentro
+               |  da caixa cinza. As tags sempre apareceram na parte de baixo da nota.
+         button.btn.btn-default
+            a(href='#menu') Voltar
+
+  div.panel.panel-default
+     div.panel-heading
+         p#incremental<strong>Pesquisa incremental</strong>
+     div.panel-body
+         |   O sistema notasViewer permite o uso de pesquisa incremental (pesquisa após pesquisa).
+         |   Observe a figura a seguir:</br></br>
+         img.img-responsive(src="/images/PesquisaIncremental-Teste.jpg")
+         |   </br></br>Existem duas regiões circuladas: uma em vermelho e outra em azul.
+         |   Cada uma delas representa uma etapa da pesquisa ou pesquisa dentro de outra pesquisa.
+         |   A primeira pesquisa usou os termos Notas e TAGs. ﻿﻿Esta pesquisa gerou como resultado um
+         |   conjunto de notas selecionadas. Entre as notas desta pesquisa, o usuário selecionou uma
+         |   nota com a TAG ﻿Pesquis﻿ar. ﻿﻿O usuário pode selecionar TAGs que são resultados de pesquisas
+         |   e continuar pesquisando. Assim, após o usuário selecionar a TAG Pesquisar﻿﻿ ﻿﻿﻿, ele clicou no
+         |   botão E, neste caso, retornando uma única nota, tal como apresentada na figura (acima),
+         |   a partir de uma pesquisa realizada anteriormente.</br></br>
+         button.btn.btn-default
+            a(href='#menu') Voltar
+
+  div.panel.panel-default
+     div.panel-heading
+         p#exemploIncremental <strong>Exemplo de uso de Pesquisa incremental</strong>
+     div.panel-body
+         |  ﻿﻿Exemplo: O usuário quer fazer uma pesquisa que seja iniciada
+         |  (tela inicial) pela seleção na nuvem de tags, da <strong>TAG: REGRA DE NEGÓCIO</strong>.</br></br>
+         img.img-responsive(src="/images/PesquisaIncrementalRegraDeNegocio-Teste.jpg")
+         |  </br></br>Após selecionar a TAG: REGRA DE NEGÓCIO, o usuário clicou no botão E,
+         |  gerando o resultado a seguir:</br></br>
+         img.img-responsive(src="/images/PesquisaIncrementalRegraDeNegocio-Parte2-Teste.jpg")
+         |  </br></br>Como a pesquisa retornou muitos resultados (20 no total - os resultados são
+         |  apresentados em grupo de quatro resultados), o usuário teve que continuar a pesquisa
+         |  selecionando uma TAG existente no resultado da pesquisa. <b>Observação: pode-se
+         |  selecionar qualquer TAG presente nos resultados</b>. ﻿﻿﻿Na figura (anterior) foi selecionada
+         |  a TAG <b>Redistribuição de Processo</b> ﻿﻿e o usuário clicou novamente no botão E, gerando
+         |  outro resultado, apresentado a seguir:</br></br>
+         img.img-responsive(src="/images/PesquisaIncrementalRegraDeNegocio-Parte3-Teste.jpg")
+         |  </br></br>Como a TAG selecionada é única no resultado, o usuário refinou a pesquisa
+         |  apresentando uma única nota. Este processo pode ser feito indefinidamente usando-se
+         |  TAG a partir dos resultados e intercalando o uso dos botões E e OU, até se obter a nota
+         |  ou as notas desejadas.</br></br>
+         button.btn.btn-default
+            a(href='#menu') Voltar
+
+  div.panel.panel-default
+     div.panel-heading
+         p#pesquisando <strong>Pesquisando no notasViewer</strong>
+     div.panel-body
+         |  Pode-se iniciar uma pesquisa de três modos:</br></br>
+         |  <b>1) Digitando um termo qualquer (texto) e selecionando qualquer um dos três botões.
+         |  Caso a pesquisa não tenha sucesso será apresentada a tela (figura a seguir):</b></br></br>
+         img.img-responsive(src="/images/PesquisaTentativa-Teste.jpg")
+         |  </br></br>Na tela do resultado da pesquisa (figura acima), foi digitada na tela inicial o
+         |  termo "tentativa". Esta pesquisa foi feita com o uso do botão OU da tela inicial. Quando
+         |  o botão OU ou E são acionados a pesquisa é dirigida às TAGs, não se realizando nenhuma
+         |  pesquisa no texto contido na nota.</br></br>
+         |  <b>2) Selecionando um conjunto de TAGs na tela inicial. Exemplo: Perfil:Usuário e AJUDA.</b></br></br>
+         img.img-responsive(src="/images/PesquisaInicialAjudaPerfilUsuario-Teste.jpg")
+         |  </br></br>Neste tipo de pesquisa podem ser selecionadas uma ou mais <b>TAGs</b>. Depois de
+         |  selecionadas, basta clicar no botão correspondente. No exemplo da figura acima foram
+         |  selecionadas as <b>TAGs AJUDA</b> e <b>Perfil: Usuário</b>. Na sequência foi clicado o botão
+         |  <b>E</b> (vide seta vermelha), com os resultados apresentados na tela a seguir (figura):</br></br>
+         img.img-responsive(src="/images/ResultadoAjudaPerfilUsuario-Teste.jpg")
+         |  </br></br>O resultado (figura acima) apresenta, na parte circulada em vermelho, a última pesquisa
+         |  realizada. Neste caso, quando foi feita a pesquisa com as tags: <b>AJUDA</b> e <b>Perfil:Usuário</b>,
+         |  foi achada uma única nota com as duas tags, mas as tags usadas foram "memorizadas"
+         |  para o caso de o usuário quiser utilizá-las novamente ou selecionar qualquer uma das tags
+         |  em uma próxima pesquisa.</br></br>
+         |  <b>3)  Caso não se conheça ou não exista TAG que satisfaça a pesquisa inicial, pode-se usar
+         |  a pesquisa por TEXTO.</b></br></br>
+         |  No exemplo a seguir (figura), o usuário quer verificar se existe alguma TAG com o termo "Petição".
+         |  Na figura a seguir verifica-se a não existência do termo "Petição" na nuvem de TAGs inicial.
+         |  O usuário tem a opção de digitar o termo e tentar procurá-lo pelo botão OU ou pelo botão E;
+         |  neste caso o sistema buscará qualquer TAG que contenha trecho deste termo. Se o botão TEXTO
+         |  for clicado, o termo será procurado no conteúdo da tags; da mesma forma, será selecionada
+         |  qualquer nota que tenha texto com o termo selecionado. Observe o resultado da pesquisa:</br></br>
+         img.img-responsive(src="/images/ResultadoPesquisaPetiçãoOU-Teste.jpg")
+         |  </br></br><b>Observação: para buscar qualquer termo no conteúdo de uma nota,
+         |  use a pesquisa com o botão TEXTO. Caso contrário, se o objetivo for encontrar o termo
+         |  nas TAGs, use o botão E ou OU.</b></br></br>
+         button.btn.btn-default
+            a(href='#menu') Voltar
+
+  div.panel.panel-default
+     div.panel-heading
+         p#visualizando <strong>Visualizando as últimas 20 notas cadastradas no sistema.</strong>
+     div.panel-body
+         |  Para ver os últimos 20 itens ou notas cadastradas basta clicar diretamente no botão OU,
+         |  botão E, ou botão TEXTO (qualquer um deles). Não há necessidade de clicar em nenhuma tag;
+         |  clique direto em qualquer um dos três botões.</br></br>
+         img.img-responsive(src="/images/CliqueOU-Teste.jpg")
+         |  </br></br>
+         button.btn.btn-default
+            a(href='#menu') Voltar
+
+  div.panel.panel-default
+      div.panel-heading
+         p#tagsPesquisaEmAndamento <b>Usando TAGs de uma pesquisa em andamento</b>
+      div.panel-body
+         |﻿﻿﻿  É possível fazer uma pesquisa a partir de uma pesquisa em andamento. Observe
+         |  a figura a seguir:</br></br>
+         img.img-responsive(src="/images/AproveitamentoDePesquisa-Teste.jpg")
+         |  </br></br>No elemento Tags pesquisadas (figura acima) existe uma pesquisa em
+         |  andamento com as TAGs: <b>notasViewer, AJUDA, TAGs</b> e <b>Retornar pesquisa</b>. Pode-se
+         |  iniciar uma nova pesquisa selecionando qualquer um dos termos (TAGs) mencionadas
+         |  anteriormente. Por exemplo, é possível fazer uma pesquisa com as TAGs <b>AJUDA</b> ou <b>Retornar
+         |  pesquisa</b> ﻿﻿a partir da pesquisa em andamento apresentada na figura (acima). A figura a seguir,
+         |  mostra a nova pesquisa realizada com as TAGs da pesquisa anterior.</br></br>
+         img.img-responsive(src="/images/AproveitamentoDePesquisa-Parte2-Teste.jpg")
+         |  </br></br>
+         button.btn.btn-default
+            a(href='#menu') Voltar
+
+  div.panel.panel-default
+      div.panel-heading
+         p#pesquisaAnterior <b>Retornar a uma pesquisa anterior</b>
+      div.panel-body
+         |  Caso o usuário, após pesquisas consecutivas, quiser voltar para qualquer uma das
+         |  pesquisas anteriores, basta clicar em qualquer operador relacional anterior a pesquisa
+         |  atual presente em <b>Tags pesquisadas</b>. Na figura a seguir, são feitas três pesquisas,
+         |  sendo que a última utilizou a TAG <b>UC-000018</b>.</br></br>
+         img.img-responsive(src="/images/RetornandoAPesquisaAnterior-Teste.jpg")
+         |  </br></br>Caso o usuário queira volta, por exemplo, para a primeira pesquisa,
+         |  basta clicar no primeiro operador E apresentado na sequência do elemento
+         |  <b>Tags pesquisadas</b>.</br></br>
+         img.img-responsive(src="/images/RetornandoAPesquisaAnterior-Parte2-Teste.jpg")
+         |  </br></br>Cada operador presente na pesquisa representa uma pesquisa feita
+         |  anteriormente. Como na figura (acima) são observados três operadores lógicos E,
+         |  conclui-se que foram feitas três pesquisas. Se, por ventura, o usuário tivesse que
+         |  voltar à segunda pesquisa, bastava ele clicar no segundo E, e assim sucessivamente,
+         |  independente do operador utilizado. Como o primeiro E foi o selecionado pelo usuário
+         |  (círculo em vermelho) ele retornará a primeira pesquisa. Vejam o resultado:</br></br>
+         img.img-responsive(src="/images/RetornandoAPesquisaAnterior-Parte3-Teste.jpg")
+         |  </br></br>A partir daqui o usuário pode continuar com outra pesquisa.</br></br>
+         button.btn.btn-default
+            a(href='#menu') Voltar
+
+  div.panel.panel-default
+      div.panel-heading
+         p#pesquisaE <b>Pesquisa usando o botão E para duas tags selecionadas</b>
+      div.panel-body
+         |  A seguir é apresentada um exemplo de pesquisa que usa duas tags, que são
+         |  acionadas com o botão E</br></br>
+         img.img-responsive(src="/images/PesquisaPerfilUsuarioECasoDeUso-Teste.jpg")
+         |  </br></br>Na figura acima são selecionada (clicadas) duas tags: CASO DE USO
+         |  e Perfil: Usuário. Quando cada tag é clicada ela é copiada para a área de pesquisa,
+         |  se for repetida, irá aparecer somente uma. Finalizada a seleção de TAGs, basta
+         |  clicar no botão E, com os resultados (partes deles) apresentados na tela
+         |  (figura a seguir):﻿</br></br>
+         img.img-responsive(src="/images/ResultadoPesquisaCasoDeUsoEPerfilUsuario-Teste.jpg")
+         |  </br></br>
+         button.btn.btn-default
+            a(href='#menu') Voltar
+
+
+
+
+
+

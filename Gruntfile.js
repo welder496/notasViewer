@@ -3,11 +3,15 @@ module.exports = function(grunt) {
   grunt.initConfig({
     jsDir: 'public/javascripts',
     jsDistDir: 'dist/public/javascripts',
+    imagesDir: 'public/images',
+    videosDir: 'public/videos',
     cssDir: 'public/stylesheets',
     routesDir: 'routes',
     distRoutesDir: 'dist/routes',
     viewsDir: 'views',
     distViewsDir: 'dist/views',
+    imagesDistDir: 'dist/public/images',
+    videosDistDir: 'dist/public/videos',
     nodeModules: 'node_modules',
     distNodeModules: 'dist/node_modules',
     cssDistDir: 'dist/public/stylesheets',
@@ -109,6 +113,27 @@ module.exports = function(grunt) {
                        flatten: true,
                        src: ['**/*.min.css'],
                        dest: '<%= cssDistDir %>'
+                 },
+                 /** Cópia das imagens usadas no help **/
+                 {
+                       cwd: '<%= imagesDir %>',
+                       expand: true,
+                       src: ['**/*-Teste.jpg','**/*-Teste.jpeg'],
+                       dest: '<%= imagesDistDir %>'
+                 },
+                 /** Cópia de vídeos usados no help **/
+                 {
+                       cwd: '<%= videosDir %>',
+                       expand: true,
+                       src: ['**/*.mp4'],
+                       dest: '<%= videosDistDir %>'
+                 },
+                 /** Copiando as fontes ou glyphicons do bootstrap 3.3.4 **/
+                 {
+                       cwd: '<%= cssDir %>/bootstrap-3.3.4/fonts/',
+                       expand: true,
+                       src: ['**/*'],
+                       dest: '<%= cssDistDir %>/bootstrap-3.3.4/fonts/'
                  },
                  {
                        expand: true,

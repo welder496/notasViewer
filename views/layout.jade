@@ -4,7 +4,7 @@ html
     title= title
     meta(charset='utf-8')
     meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1')
-    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap-3.3.4/css/bootstrap.min.css')
     block css
   body
     div.container
@@ -16,6 +16,7 @@ html
                 span.icon-bar
                 span.icon-bar
              a.navbar-brand(href="/index") Notas
+             a.navbar-brand(href="/help") Ajuda
           div#target-menu.collapse.navbar-collapse
               form.navbar-form(role="form" method="post" action="/searchForTags")
                  div.form-group(style="display:inline;")
