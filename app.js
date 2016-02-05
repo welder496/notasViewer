@@ -18,7 +18,7 @@ app.set('view engine', 'jade');
 
 app.use(http_auth.realm('Private Area'));
 app.use(function(req,res,next){
-      if (req.name = 'user' && req.pass = 'user'){
+      if (req.name == 'user' && req.pass == 'user'){
             next();
       } else {
             res.header('WWW-Authenticate', 'Basic realm="Private Area"');
