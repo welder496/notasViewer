@@ -13,14 +13,14 @@ documents.post('/', function(req, res, next){
    notasRest.getNotaByCodigo(codigo, function(data){
       if (data.hasOwnProperty('message')){
          message = data.message;
-         res.render('edit',{message: message, show: 'true'});
+         res.json({message: message, show: 'true'});
       }
       if (data.hasOwnProperty('codigo')) {
          var id = data._id;
          notasRest.getDocument(id+'/'+documento, function(data){
              if (data.hasOwnProperty('message')){
                   message = data.message;
-                  res.render('edit',{message: message, show: 'true'});
+                  res.json({message: message, show: 'true'});
              } else
              if (data) {
                   res.send(data);
