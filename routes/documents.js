@@ -23,7 +23,8 @@ documents.post('/', function(req, res, next){
                   res.json({message: message, show: 'true'});
              } else
              if (data) {
-                  res.send(data);
+                  console.log(data);
+                  res.send('http://'+"localhost"+":"+12345+"/arquivos/"+id+"/"+documento);
              }
          });
       }
