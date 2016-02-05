@@ -16,12 +16,12 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(http_auth.realm('Private Area'));
+app.use(http_auth.realm('NotasViewer'));
 app.use(function(req,res,next){
       if (req.name == 'user' && req.pass == 'user'){
             next();
       } else {
-            res.header('WWW-Authenticate', 'Basic realm="Private Area"');
+            res.header('WWW-Authenticate', 'Basic realm="NotasViewer"');
             res.sendStatus(401);
       }
 });
