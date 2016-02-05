@@ -8,6 +8,7 @@ var searchForTags = require('./routes/searchForTags');
 var documents = require('./routes/documents');
 var breadcrumb = require('./routes/breadCrumb');
 var help = require('./routes/help');
+var http_auth = require('express-http-auth');
 
 var app = express();
 
@@ -15,6 +16,15 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(http_auth.realm('Private Area'));
+app.use(function(req,res,next){
+      if (req.name = 'user' && req.pass = 'user'){
+            next();
+      } else {
+            res.header('WWW-Authenticate', 'Basic realm="Private Area"');
+            res.sendStatus(401);
+      }
+});
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
     secret: 'teste',
@@ -24,7 +34,7 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, '/public')));
 
-app.use('/', main);
+app.use('/',main);
 app.use('/index', main);
 app.use('/searchForTags', searchForTags);
 app.use('/documents', documents);
