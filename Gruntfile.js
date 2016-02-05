@@ -250,7 +250,7 @@ module.exports = function(grunt) {
                   }
            },
            'git-push':{
-                  command: 'git push notasPJEGitHubServer <%= pkg.version %>',
+                  command: 'git push notasGitHubViewer <%= pkg.version %>',
                   options: {
                       stdout: true,
                       stderr: true
