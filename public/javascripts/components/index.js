@@ -53,7 +53,7 @@
             var codigo = $(this).attr('codigo');
             var value = $(this).attr('value');
             rest.post('/documents',{codigo: codigo, value: value},function(data){
-                 window.open("http:/localhost:12345/arquivos/56b4cefe0663484c24000001/Welder1454690046349.pdf",'_blank','top=200,left=200,toolbar=no,resizable=yes,scrollbars=no,width=800,height=600');
+                 window.open(data,'_blank','top=200,left=200,toolbar=no,resizable=yes,scrollbars=no,width=800,height=600');
             });
       });
 
