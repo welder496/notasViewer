@@ -9,9 +9,13 @@ var documents = require('./routes/documents');
 var breadcrumb = require('./routes/breadCrumb');
 var help = require('./routes/help');
 var http_auth = require('express-http-auth');
+var morgan = require('morgan');
+var fs = require('fs');
 
 var app = express();
 
+//creates a log into a file
+var accessLogger = fs.createWriteStream(__dirname+'/logAccess.log', {flags: 'a'});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -25,6 +29,7 @@ app.use(function(req,res,next){
             res.sendStatus(401);
       }
 });
+app.use(morgan('combined',{stream: accessLogger}));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
     secret: 'teste',
