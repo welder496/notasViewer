@@ -1,6 +1,7 @@
 var express = require('express');
 var documents = express.Router({mergeparams: true});
 var notasRest = require('notasrest');
+var netconfig = require('netconfig');
 
 documents.get('/', function(req, res, next){
    res.end();
@@ -12,20 +13,18 @@ documents.post('/', function(req, res, next){
    var message = '';
    notasRest.getNotaByCodigo(codigo, function(data){
       if (data.hasOwnProperty('message')){
-         message = data.message;
-         res.json({message: message, show: 'true'});
-      }
+            message = data.message;
+            res.json({message: message, show: 'true'});
+      } else
       if (data.hasOwnProperty('codigo')) {
-         var id = data._id;
-         notasRest.getDocument(id+'/'+documento, function(data){
-             if (data.hasOwnProperty('message')){
+            var id = data._id;
+            notasRest.getDocument(id+'/'+documento, function(data){
+            if (data.hasOwnProperty('message')){
                   message = data.message;
                   res.json({message: message, show: 'true'});
-             } else
-             if (data) {
-                  console.log(data);
-                  res.send('http://'+"localhost"+":"+12345+"/arquivos/"+id+"/"+documento);
-             }
+            } else {
+                  res.send('http://'+netconfig.getHost()+":"+netconfig.getPort()+"/arquivos/"+id+"/"+documento);
+            }
          });
       }
   });
