@@ -1,5 +1,6 @@
 #ignore these files or directories
 
+logAccess.log
 machine.json
 /uploads
 /dist
