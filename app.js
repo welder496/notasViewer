@@ -35,7 +35,7 @@ app.use(session({
     secret: 'teste',
     saveUninitialized: false,
     resave: false,
-    store: new MongoStore({url: 'mongodb://localhost/Notas', autoRemove: 'native'})
+    store: new MongoStore({url: 'mongodb://localhost/Notas', autoRemove: 'native', collection: 'notasViewerSession'})
 }));
 app.use(express.static(path.join(__dirname, '/public')));
 
