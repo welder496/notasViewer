@@ -12,10 +12,10 @@ var parseData = function(counter,str){
                  var opr = data;
                  if (opr.indexOf('$') != -1) {
                        txt = parseData(counter+1, txt);
-                       str = str + 'op'+(counter+1)+'='+opr+"&"+txt;
+                       str = str + 'op'+(counter+1)+'='+encodeURIComponent(opr)+"&"+txt;
                        return;
                  } else {
-                       str = str + "tags"+counter+"="+opr+"&";
+                       str = str + "tags"+counter+"="+encodeURIComponent(opr)+"&";
                  }
             });
       }
