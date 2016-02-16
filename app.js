@@ -21,6 +21,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(morgan('combined',{stream: accessLogger}));
+/* Testing
 app.use(http_auth.realm('NotasViewer'));
 app.use(function(req,res,next){
       if (req.name == 'user' && req.pass == 'user'){
@@ -30,6 +31,7 @@ app.use(function(req,res,next){
             res.sendStatus(401);
       }
 });
+*/
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
     secret: 'teste',

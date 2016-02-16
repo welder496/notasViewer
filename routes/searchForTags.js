@@ -208,6 +208,7 @@ searchForTags.post('/clean', function(req, res){
       req.session.cookie.expires = new Date(Date.now()+60000);
       req.session.cookie.maxAge = 60000;
       req.session.save(function(err){});
+      res.end();
 });
 
 module.exports = searchForTags;
