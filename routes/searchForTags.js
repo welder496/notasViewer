@@ -164,13 +164,16 @@ var postNothing = function(req, res){
 searchForTags.post('/', function(req, res) {
       var searchTags = req.body.searchTags;
       var button = req.body.button;
-      if (button === "OR" && searchTags !== ""){
+      if (button !== null) {
+          var testButton = button.toUpperCase();
+      }
+      if (testButton === "OR" && searchTags !== ""){
          postOr(req, res);
       } else
-      if (button === "AND" && searchTags !== ""){
+      if (testButton === "AND" && searchTags !== ""){
          postAnd(req, res);
       } else
-      if (button === "TEXTO" && searchTags !== ""){
+      if (testButton === "TEXTO" && searchTags !== ""){
          postTexto(req, res);
       } else {
          postNothing(req,res);
