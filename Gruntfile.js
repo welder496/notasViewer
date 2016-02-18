@@ -137,7 +137,7 @@ module.exports = function(grunt) {
                  },
                  {
                        expand: true,
-                       src: ['*.js','!Grunt*','!karma*'],
+                       src: ['*.js','userInfo','!Grunt*','!karma*'],
                        dest: '<%= distDir %>'
                  }
            ]
