@@ -53,8 +53,11 @@
             var codigo = $(this).attr('codigo');
             var value = $(this).attr('value');
             rest.post('/documents',{codigo: codigo, value: value},function(data){
-                      document.write("<div><iframe src='"+data+"'></iframe></div>");
-                      document.close();
+                      $.get(data, function(dat, status){
+                          alert(dat);
+                      });
+                      //document.write("<div><iframe src='"+data+"'></iframe></div>");
+                      //document.close();
                       // window.open(data,'_blank','top=200,left=200,toolbar=no,resizable=yes,scrollbars=no,width=800,height=600');
             });
       });
