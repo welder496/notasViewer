@@ -20,11 +20,10 @@ documents.post('/', function(req, res, next){
             var id = data._id;
             notasRest.getDocument(id+'/'+documento, function(data){
             if (data.hasOwnProperty('message')){
-                  message = data.message;
-                  res.json({message: message, show: 'true'});
+                 message = data.message;
+                 res.json({message: message, show: 'true'});
             } else {
-                 // res.send('http://'+netconfig.getHost()+":"+netconfig.getPort()+"/arquivos/"+id+"/"+documento);
-                 res.send(data);
+                 res.send('http://'+netconfig.getHost()+":"+netconfig.getPort()+"/arquivos/"+id+"/"+documento);
             }
          });
       }
