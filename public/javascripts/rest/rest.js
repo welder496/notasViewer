@@ -14,7 +14,7 @@ var rest = function($){
                   withCredentials: true
             },
             beforeSend: function (xhr){
-                  xhr.setRequestHeader('Authorization','Basic' + btoa('notasViewer:notasViewer'));
+                  xhr.setRequestHeader('Authorization','Basic  ' + btoa('notasViewer:notasViewer'));
             },
             url: url,
             type: 'PUT',
@@ -37,7 +37,7 @@ var rest = function($){
                   withCredentials: true
             },
             beforeSend: function (xhr){
-                  xhr.setRequestHeader('Authorization','Basic' + btoa('notasViewer:notasViewer'));
+                  xhr.setRequestHeader('Authorization','Basic  ' + btoa('notasViewer:notasViewer'));
             },
             url: url,
             type: 'DELETE',
@@ -60,7 +60,7 @@ var rest = function($){
                   withCredentials: true
             },
             beforeSend: function (xhr){
-                  xhr.setRequestHeader('Authorization','Basic' + btoa('notasViewer:notasViewer'));
+                  xhr.setRequestHeader('Authorization','Basic  ' + btoa('notasViewer:notasViewer'));
             },
             url: url,
             type: 'POST',
@@ -83,7 +83,7 @@ var rest = function($){
                   withCredentials: true
             },
             beforeSend: function (xhr){
-                  xhr.setRequestHeader('Authorization','Basic' + btoa('notasViewer:notasViewer'));
+                  xhr.setRequestHeader('Authorization','Basic  ' + btoa('notasViewer:notasViewer'));
             },
             url: url,
             type: 'GET',
