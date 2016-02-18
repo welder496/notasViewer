@@ -10,6 +10,12 @@ var rest = function($){
          };
 
          return $.ajax({
+            xhrFields:{
+                  withCredentials: true
+            },
+            beforeSend: function (xhr){
+                  xhr.setRequestHeader('Authorization','Basic' + btoa('notasViewer:notasViewer'));
+            },
             url: url,
             type: 'PUT',
             success: callback,
@@ -27,6 +33,12 @@ var rest = function($){
          };
 
          return $.ajax({
+            xhrFields:{
+                  withCredentials: true
+            },
+            beforeSend: function (xhr){
+                  xhr.setRequestHeader('Authorization','Basic' + btoa('notasViewer:notasViewer'));
+            },
             url: url,
             type: 'DELETE',
             success: callback,
@@ -44,6 +56,12 @@ var rest = function($){
          };
 
          return $.ajax({
+            xhrFields:{
+                  withCredentials: true
+            },
+            beforeSend: function (xhr){
+                  xhr.setRequestHeader('Authorization','Basic' + btoa('notasViewer:notasViewer'));
+            },
             url: url,
             type: 'POST',
             success: callback,
@@ -61,6 +79,12 @@ var rest = function($){
          };
 
          return $.ajax({
+            xhrFields:{
+                  withCredentials: true
+            },
+            beforeSend: function (xhr){
+                  xhr.setRequestHeader('Authorization','Basic' + btoa('notasViewer:notasViewer'));
+            },
             url: url,
             type: 'GET',
             success: callback,
