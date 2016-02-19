@@ -69,29 +69,11 @@ var rest = function($){
          });
    };
 
-   var secGet = function(url, data, callback, type){
-
-         if ( $.isFunction(data) ){
-               type = type || callback,
-               callback = data,
-               data = {}
-         };
-
-         return $.ajax({
-            url: url,
-            type: 'GET',
-            success: callback,
-            data: data,
-            contentType: type
-         });
-   };
-
    return {
       put:put,
       del:del,
       post:post,
-      get:get,
-      secGet: secGet
+      get:get
    };
 
 }(jQuery);

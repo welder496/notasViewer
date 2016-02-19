@@ -19,6 +19,8 @@ documents.post('/', function(req, res, next){
                  message = data.message;
                  res.json({message: message, show: 'true'});
             } else {
+                //var buffer = new Buffer(data, 'base64');
+                //console.log(typeof(buffer));
                 res.send(data);
                 // res.send('http://'+netconfig.getHost()+':'+netconfig.getPort()+'/arquivos/'+id+'/'+documento);
             }
