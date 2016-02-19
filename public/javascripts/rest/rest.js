@@ -63,9 +63,26 @@ var rest = function($){
          return $.ajax({
             url: url,
             type: 'GET',
-         //   beforeSend: function(req){
-         //      req.setRequestHeader('Authorization', 'Basic bm90YXNWaWV3ZXI6bm90YXNWaWV3ZXI=');
-         //   },
+            success: callback,
+            data: data,
+            contentType: type
+         });
+   };
+
+   var secGet = function(url, data, callback, type){
+
+         if ( $.isFunction(data) ){
+               type = type || callback,
+               callback = data,
+               data = {}
+         };
+
+         return $.ajax({
+            url: url,
+            type: 'GET',
+            beforeSend: function(req){
+               req.setRequestHeader('Authorization', 'Basic bm90YXNWaWV3ZXI6bm90YXNWaWV3ZXI=');
+            },
             success: callback,
             data: data,
             contentType: type
@@ -77,6 +94,7 @@ var rest = function($){
       del:del,
       post:post,
       get:get,
+      secGet: secGet
    };
 
 }(jQuery);
