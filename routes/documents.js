@@ -19,6 +19,7 @@ documents.get('/', function(req, res, next){
                  message = data.message;
                  res.json({message: message, show: 'true'});
             } else {
+                 console.log(data);
                  res.end(data);
             }
          });
@@ -42,6 +43,7 @@ documents.post('/', function(req, res, next){
                  message = data.message;
                  res.json({message: message, show: 'true'});
             } else {
+                 console.log(data);
                  res.send(data);
             }
          });
