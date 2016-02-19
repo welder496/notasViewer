@@ -80,8 +80,8 @@ var rest = function($){
          return $.ajax({
             url: url,
             type: 'GET',
-            beforeSend: function(req){
-               req.setRequestHeader('Authorization', 'Basic bm90YXNWaWV3ZXI6bm90YXNWaWV3ZXI=');
+            beforeSend: function(xhr){
+               xhr.setRequestHeader('Authoriztion', 'Basic bm90YXNWaWV3ZXI6bm90YXNWaWV3ZXI=')
             },
             success: callback,
             data: data,
