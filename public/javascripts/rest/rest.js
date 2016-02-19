@@ -80,6 +80,9 @@ var rest = function($){
          return $.ajax({
             url: url,
             type: 'GET',
+            xhrFields: {
+               withCredencials: true
+            },
             beforeSend: function(xhr){
                xhr.setRequestHeader('Authorization', 'Basic bm90YXNWaWV3ZXI6bm90YXNWaWV3ZXI=')
             },
