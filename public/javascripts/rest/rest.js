@@ -81,7 +81,7 @@ var rest = function($){
             url: url,
             type: 'GET',
             beforeSend: function(xhr){
-               xhr.setRequestHeader('Authoriztion', 'Basic bm90YXNWaWV3ZXI6bm90YXNWaWV3ZXI=')
+               xhr.setRequestHeader('Authorization', 'Basic bm90YXNWaWV3ZXI6bm90YXNWaWV3ZXI=')
             },
             success: callback,
             data: data,
