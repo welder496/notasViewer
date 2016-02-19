@@ -19,7 +19,8 @@ documents.post('/', function(req, res, next){
                  message = data.message;
                  res.json({message: message, show: 'true'});
             } else {
-                 res.send('http://'+netconfig.getHost()+':'+netconfig.getPort()+'/arquivos/'+id+'/'+documento);
+                res.send(data);
+                // res.send('http://'+netconfig.getHost()+':'+netconfig.getPort()+'/arquivos/'+id+'/'+documento);
             }
          });
       }
