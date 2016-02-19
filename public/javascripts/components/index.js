@@ -52,7 +52,7 @@
       $("#tableTags").on('click','a',function(event){
             var codigo = $(this).attr('codigo');
             var value = $(this).attr('value');
-            rest.post('/documents',{codigo: codigo, value: value},function(data){
+            rest.get('/documents',{codigo: codigo, value: value},function(data){
                  window.open(data,'_blank','top=200,left=200,toolbar=no,resizable=yes,scrollbars=no,width=800,height=600');
             });
       });

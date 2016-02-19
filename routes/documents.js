@@ -4,7 +4,26 @@ var notasRest = require('notasrest');
 var netconfig = require('netconfig');
 
 documents.get('/', function(req, res, next){
-   res.end();
+   var codigo = req.body.codigo;
+   var documento = req.body.value;
+   var message = '';
+   notasRest.getNotaByCodigo(codigo, function(data){
+      if (data.hasOwnProperty('message')){
+            message = data.message;
+            res.json({message: message, show: 'true'});
+      } else
+      if (data.hasOwnProperty('codigo')) {
+            var id = data._id;
+            notasRest.getDocument(id+'/'+documento, function(data){
+            if (data.hasOwnProperty('message')){
+                 message = data.message;
+                 res.json({message: message, show: 'true'});
+            } else {
+                 res.end(data);
+            }
+         });
+      }
+  });
 });
 
 documents.post('/', function(req, res, next){
@@ -23,7 +42,7 @@ documents.post('/', function(req, res, next){
                  message = data.message;
                  res.json({message: message, show: 'true'});
             } else {
-                 res.send('http://'+netconfig.getHost()+":"+netconfig.getPort()+"/arquivos/"+id+"/"+documento);
+                 res.send(data);
             }
          });
       }
