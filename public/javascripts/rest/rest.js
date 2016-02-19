@@ -63,9 +63,9 @@ var rest = function($){
          return $.ajax({
             url: url,
             type: 'GET',
-            beforeSend: function(req){
-               req.setRequestHeader('Authorization', 'Basic '+btoa('notasViewer:notasViewer'));
-            },
+         //   beforeSend: function(req){
+         //      req.setRequestHeader('Authorization', 'Basic bm90YXNWaWV3ZXI6bm90YXNWaWV3ZXI=');
+         //   },
             success: callback,
             data: data,
             contentType: type
