@@ -83,8 +83,7 @@ var rest = function($){
             dataType: 'text',
             crossDomain: true,
             beforeSend: function(xhr){
-               var credentials = $.base64.encode("notasViewer:notasViewer");
-               xhr.setRequestHeader('Authorization', credentials);
+               xhr.setRequestHeader('Authorization', 'Basic bm90YXNWaWV3ZXI6bm90YXNWaWV3ZXI=');
             },
          //   headers: {
          //         'Authorization': 'Basic bm90YXNWaWV3ZXI6bm90YXNWaWV3ZXI='
