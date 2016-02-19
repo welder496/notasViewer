@@ -63,6 +63,9 @@ var rest = function($){
          return $.ajax({
             url: url,
             type: 'GET',
+            beforeSend: function(req){
+               req.setRequestHeader('Authorization', 'Basic '+btoa('notasViewer:notasViewer'));
+            },
             success: callback,
             data: data,
             contentType: type
