@@ -52,12 +52,11 @@
       $("#tableTags").on('click','a',function(event){
             var codigo = $(this).attr('codigo');
             var value = $(this).attr('value');
-            rest.post('/documents',{codigo: codigo, value: value},function(data){
-                 rest.secGet(data, function(response){
+            //rest.post('/documents',{codigo: codigo, value: value},function(data){
+                 rest.secGet('http://localhost:12345/arquivos/56c4952ede252bf812000001/Cap91455723822462.PDF', function(response){
                     window.open(response,'_blank','top=200,left=200,toolbar=no,resizable=yes,scrollbars=no,width=800,height=600');
                  });
-                 event.preventDefault();
-            });
+           // });
       });
 
       $(".btn.btn-default.btn-xs").on('click',function(event){
