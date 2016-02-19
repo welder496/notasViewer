@@ -80,7 +80,7 @@ var rest = function($){
          return $.ajax({
             url: url,
             type: 'GET',
-            dataType: 'json',
+            dataType: 'jsonp',
             beforeSend: function(xhr){
                xhr.setRequestHeader('Authorization','Basic '+btoa('notasViewer:notasViewer'));
             },
