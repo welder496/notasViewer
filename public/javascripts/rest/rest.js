@@ -80,9 +80,11 @@ var rest = function($){
          return $.ajax({
             url: url,
             type: 'GET',
-            dataType: 'jsonp',
+            dataType: 'text',
+            crossDomain: true,
             beforeSend: function(xhr){
-               xhr.setRequestHeader('Authorization','Basic '+btoa('notasViewer:notasViewer'));
+               var credentials = $.base64.encode("notasViewer:notasViewer");
+               xhr.setRequestHeader('Authorization', credentials);
             },
          //   headers: {
          //         'Authorization': 'Basic bm90YXNWaWV3ZXI6bm90YXNWaWV3ZXI='
