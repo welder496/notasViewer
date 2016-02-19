@@ -79,10 +79,13 @@ var rest = function($){
 
          return $.ajax({
             url: url,
-            type: 'GET',
-            headers: {
-                  'Authorization': 'Basic bm90YXNWaWV3ZXI6bm90YXNWaWV3ZXI='
+            type: 'json',
+            beforeSend: function(xhr){
+               xhr.setRequestHeader('Authorization','Basic '+btoa('notasViewer:notasViewer'));
             },
+         //   headers: {
+         //         'Authorization': 'Basic bm90YXNWaWV3ZXI6bm90YXNWaWV3ZXI='
+         //   },
             success: callback,
             data: data,
             contentType: type
