@@ -17,6 +17,7 @@
     "netconfig": "^1.0.0",
     "notasrest": "^1.0.1",
     "referer-parser": "0.0.3",
+    "request": "^2.69.0",
     "restler": "^3.4.0",
     "serve-favicon": "~2.2.0"
   },

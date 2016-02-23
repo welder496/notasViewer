@@ -1,3 +1,5 @@
+global.__base = __dirname;
+
 var express = require('express');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
@@ -13,6 +15,8 @@ var morgan = require('morgan');
 var fs = require('fs');
 
 var app = express();
+
+var downs = __base + '/downloads';
 
 //creates a log into a file
 var accessLogger = fs.createWriteStream(__dirname+'/logAccess.log', {flags: 'a'});
@@ -40,6 +44,7 @@ app.use(session({
     store: new MongoStore({url: 'mongodb://localhost/Notas', autoRemove: 'native', collection: 'notasViewerSession'})
 }));
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(downs)));
 
 app.use('/',main);
 app.use('/index', main);
@@ -47,6 +52,7 @@ app.use('/searchForTags', searchForTags);
 app.use('/documents', documents);
 app.use('/breadcrumb', breadcrumb);
 app.use('/help', help);
+app.use('/downloads',express.static(downs));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
