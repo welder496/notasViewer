@@ -1,6 +1,6 @@
 {
   "name": "notasViewer",
-  "version": "1.0.71",
+  "version": "1.0.13",
   "private": true,
   "scripts": {
     "start": "./bin/www"
