@@ -8,7 +8,7 @@ breadcrumb.get('/',function(req, res){
       var copy = temp.toString().split(',');
       var total = copy.length;
       copy.forEach(function(data, index){
-            if (data !== "" && typeof(data) !== "undefined"){
+            if (data !== "" && data !== "undefined"){
                 if (data === '$and' || data === '$or') {
                      data = data.substring(1);
                      if (data === 'or') data = 'OU';

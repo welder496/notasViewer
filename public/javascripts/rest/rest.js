@@ -73,7 +73,7 @@ var rest = function($){
       put:put,
       del:del,
       post:post,
-      get:get,
+      get:get
    };
 
 }(jQuery);

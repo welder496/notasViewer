@@ -12,10 +12,10 @@ var parseData = function(counter,str){
                  var opr = data;
                  if (opr.indexOf('$') != -1) {
                        txt = parseData(counter+1, txt);
-                       str = str + 'op'+(counter+1)+'='+opr+"&"+txt;
+                       str = str + 'op'+(counter+1)+'='+encodeURIComponent(opr)+"&"+txt;
                        return;
                  } else {
-                       str = str + "tags"+counter+"="+opr+"&";
+                       str = str + "tags"+counter+"="+encodeURIComponent(opr)+"&";
                  }
             });
       }
@@ -164,13 +164,16 @@ var postNothing = function(req, res){
 searchForTags.post('/', function(req, res) {
       var searchTags = req.body.searchTags;
       var button = req.body.button;
-      if (button === "OR" && searchTags !== ""){
+      if (button !== null) {
+          var testButton = button.toUpperCase();
+      }
+      if (testButton === "OR" && searchTags !== ""){
          postOr(req, res);
       } else
-      if (button === "AND" && searchTags !== ""){
+      if (testButton === "AND" && searchTags !== ""){
          postAnd(req, res);
       } else
-      if (button === "TEXTO" && searchTags !== ""){
+      if (testButton === "TEXTO" && searchTags !== ""){
          postTexto(req, res);
       } else {
          postNothing(req,res);
@@ -208,6 +211,7 @@ searchForTags.post('/clean', function(req, res){
       req.session.cookie.expires = new Date(Date.now()+60000);
       req.session.cookie.maxAge = 60000;
       req.session.save(function(err){});
+      res.end();
 });
 
 module.exports = searchForTags;

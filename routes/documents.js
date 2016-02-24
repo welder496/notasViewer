@@ -1,10 +1,11 @@
 var express = require('express');
 var documents = express.Router({mergeparams: true});
 var notasRest = require('notasrest');
-
-documents.get('/', function(req, res, next){
-   res.end();
-});
+var request = require('request');
+var fs = require('fs');
+var netconfig = require('netconfig');
+var info = JSON.parse(fs.readFileSync('../userInfo','utf8'));
+var downs = __base+'/downloads';
 
 documents.post('/', function(req, res, next){
    var codigo = req.body.codigo;
@@ -12,20 +13,21 @@ documents.post('/', function(req, res, next){
    var message = '';
    notasRest.getNotaByCodigo(codigo, function(data){
       if (data.hasOwnProperty('message')){
-         message = data.message;
-         res.render('edit',{message: message, show: 'true'});
-      }
+            message = data.message;
+            res.json({message: message, show: 'true'});
+      } else
       if (data.hasOwnProperty('codigo')) {
-         var id = data._id;
-         notasRest.getDocument(id+'/'+documento, function(data){
-             if (data.hasOwnProperty('message')){
-                  message = data.message;
-                  res.render('edit',{message: message, show: 'true'});
-             } else
-             if (data) {
-                  res.send(data);
-             }
-         });
+            var id = data._id;
+            var r = request.get("http://"+netconfig.getHost()+":"+netconfig.getPort()+"/arquivos/"+id+"/"+documento).auth(info.username,info.password,true);
+            r.on('response', function(response){
+              if (!fs.existsSync(downs)){
+                 fs.mkdir(downs);
+              }
+              if (!fs.existsSync(downs+'/'+documento)) {
+                  response.pipe(fs.createWriteStream(downs+'/'+documento));
+              }
+              res.end('downloads/'+documento);
+            });
       }
   });
 });

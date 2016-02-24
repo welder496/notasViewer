@@ -137,7 +137,7 @@ module.exports = function(grunt) {
                  },
                  {
                        expand: true,
-                       src: ['*.js','!Grunt*'],
+                       src: ['*.js','userInfo','!Grunt*','!karma*'],
                        dest: '<%= distDir %>'
                  }
            ]
@@ -209,6 +209,53 @@ module.exports = function(grunt) {
                  ignoreErrors: true
             }
        }
+    },
+    nodeunit: {
+        all: ['tests/**/*test.js','tests/**/*Test.js'],
+        options: {
+            reporter: 'junit',
+            reporterOptions: {
+                output: 'testsOutput'
+            }
+         }
+    },
+    bumpup: {
+         options: {
+              updateProps: {
+                 pkg: 'package.json'
+              }
+         },
+         file: 'package.json'
+    },
+    shell: {
+           'git-add':{
+                  command: 'git --no-pager add .',
+                  options: {
+                      stdout: true,
+                      stderr: true
+                  }
+           },
+           'git-commit':{
+                  command: 'git --no-pager commit -m "notasViewer versão <%= pkg.version %>"',
+                  options: {
+                      stdout: true,
+                      stderr: true
+                  }
+           },
+           'git-tag':{
+                  command: 'git --no-pager tag <%= pkg.version %>',
+                  options: {
+                      stdout: true,
+                      stderr: true
+                  }
+           },
+           'git-push':{
+                  command: 'git push notasGitHubViewer <%= pkg.version %>',
+                  options: {
+                      stdout: true,
+                      stderr: true
+                  }
+           }
     }
   });
 
@@ -220,6 +267,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-ssh');
+  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-bumpup');
+  grunt.loadNpmTasks('grunt-shell');
 
   grunt.registerTask('min', ['uglify','watch']);
 
@@ -229,7 +279,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('run', ['nodemon']);
 
-  grunt.registerTask('build','Compiles all of the assets in project notasViewer', ['clean','uglify','cssmin','copy']);
+  grunt.registerTask('build','Compiles all of the assets in project notasViewer', ['clean','uglify','cssmin','copy','bumpup','shell']);
 
   grunt.registerTask('deploy','sends app to the server', ['sshexec:stop','sshexec:remove',
     'sshexec:make','sshexec:change','sftp:deploy','sshexec:removes','sshexec:start']);
@@ -237,5 +287,11 @@ module.exports = function(grunt) {
   grunt.registerTask('start', 'start remote', ['sshexec:start']);
 
   grunt.registerTask('stop', 'stop remote', ['sshexec:stop']);
+
+  grunt.registerTask('test','unit tests',['nodeunit']);
+
+  grunt.registerTask('version',['bumpup']);
+
+  grunt.registerTask('tag',['shell']);
 
 };
