@@ -279,7 +279,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('run', ['nodemon']);
 
-  grunt.registerTask('build','Compiles all of the assets in project notasViewer', ['clean','uglify','cssmin','copy' /*,'bumpup','shell'*/]);
+  grunt.registerTask('build','Compiles all of the assets in project notasViewer', ['clean','uglify','cssmin','copy','bumpup','shell']);
 
   grunt.registerTask('deploy','sends app to the server', ['sshexec:stop','sshexec:remove',
     'sshexec:make','sshexec:change','sftp:deploy','sshexec:removes','sshexec:start']);
