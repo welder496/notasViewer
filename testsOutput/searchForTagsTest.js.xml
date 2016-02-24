@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="searchForTagsTest.js"
+             errors="0"
+             failures="0"
+             tests="6">
+    
+      
+      <testcase name="cleanSession">
+        
+      </testcase>
+    
+      
+      <testcase name="EmptySearchForTagsOr">
+        
+      </testcase>
+    
+      
+      <testcase name="EmptySearchForTagsAnd">
+        
+      </testcase>
+    
+      
+      <testcase name="EmptySearchForTagsTexto">
+        
+      </testcase>
+    
+      
+      <testcase name="SearchForTagsWithIncorrectCommand">
+        
+      </testcase>
+    
+      
+      <testcase name="SearchForTagsOrWithIncorrectChars">
+        
+      </testcase>
+    
+  </testsuite>
+
