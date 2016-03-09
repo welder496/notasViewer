@@ -15,7 +15,6 @@ var morgan = require('morgan');
 var restler = require('restler');
 var fs = require('fs');
 var netConfig = require('netconfig');
-
 var app = express();
 
 var downs = __base + '/downloads';
@@ -25,18 +24,6 @@ var accessLogger = fs.createWriteStream(__dirname+'/logAccess.log', {flags: 'a'}
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
-app.use(function(req,res){
-      restler.post('http://'+netconfig.getHost()+':'+netconfig.getPort()+'/Notas/usuario/login',{
-           username: encodeURIComponent('notasViewer'),
-           password: encodeURIComponent('notasViewer')
-      }).on('success', function(data,response){
-           console.log(data);
-      }).on('error', function(err, response){
-           console.log(err);
-      });
-});
-
 app.use(morgan('combined',{stream: accessLogger}));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({

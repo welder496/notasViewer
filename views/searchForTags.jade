@@ -4,6 +4,10 @@ block css
    link(rel='stylesheet' href='/stylesheets/jquery-ui.min.css')
    link(rel='stylesheet' href='/stylesheets/bootstrap-tokenfield.min.css')
    link(rel='stylesheet' href='/stylesheets/jquery.dataTables.min.css')
+   script.
+      if (#{reload}){
+         document.reload();
+      }
 
 block content
    div.row
