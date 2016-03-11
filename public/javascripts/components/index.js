@@ -3,7 +3,8 @@
 
       $(window).on('load',function(event){
            $("#searchTags").focus();
-           rest.get('index/tags',function(data){
+           var token = $('#token').attr('value');
+           rest.post('index/tags',{token: token}, function(data){
                  new WordCloud(document.getElementById('canvas'),
                  {list: data,
                         gridSize: 18,
@@ -52,7 +53,8 @@
       $("#tableTags").on('click','a',function(event){
             var codigo = $(this).attr('codigo');
             var value = $(this).attr('value');
-            rest.post('/documents',{codigo: codigo, value: value},function(data){
+            var token = $('#token').attr('value');
+            rest.post('/documents',{token: token, codigo: codigo, value: value},function(data){
                  window.open(data,'_blank','top=200,left=200,toolbar=no,resizable=yes,scrollbars=no,width=800,height=600');
             });
       });

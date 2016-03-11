@@ -1,4 +1,5 @@
 global.__base = __dirname;
+global.__token = require('./routes/connect').connect("");
 
 var express = require('express');
 var session = require('express-session');
@@ -35,6 +36,10 @@ app.use(session({
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.static(path.join(downs)));
 
+app.use(function(req,res,next){
+    global.__token = require('./routes/connect').connect(global.__token);
+    next();
+});
 app.use('/',main);
 app.use('/index', main);
 app.use('/searchForTags', searchForTags);
@@ -75,3 +80,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+

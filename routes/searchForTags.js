@@ -4,32 +4,8 @@ var notasRest = require('notasrest');
 var tags = require('./tags');
 var arquivos = require('./arquivos');
 var stack = require('localstack');
-var netConfig = require('netconfig');
-var restler = require('restler');
-var fs = require('fs');
-var update = false;
-var info = "";
-
-var connect = function(req,res,next){
-      fs.readFile('./userInfo', 'utf8', function(err, data){
-            info = JSON.parse(data);
-            restler.get("http://"+netConfig.getHost()+":"+netConfig.getPort()+'/notas/notas/first/1',{
-                 accessToken: info.token
-            })
-            .on('complete', function(result){
-                 if (result.message === "Token inválido!!") {
-                       restler.post("http://"+netConfig.getHost()+":"+netConfig.getPort()+'/notas/usuario/login',{
-                             data: {username: info.username, password: info.password}
-                       })
-                       .on('complete', function(result){
-                             fs.writeFile('./userInfo',JSON.stringify({"username": result.username, "password": "notasPJEViewer", "token": result.token}),'utf8');
-                             update = true;
-                       })
-                 }
-            });
-      });
-      next();
-}
+var tokenUtil = require('./connect');
+var token = "";
 
 var parseData = function(counter,str){
       var txt = "";
@@ -68,7 +44,7 @@ var pushData = function(tags){
       });
 };
 
-var showData = function(res, message, show, data, reload){
+var showData = function(res, message, show, data, token){
       var results = "";
       if ((data instanceof Array) && (data.length != 0)) {
            for (var i=0; i < data.length; i++){
@@ -77,34 +53,28 @@ var showData = function(res, message, show, data, reload){
            }
            results = data;
       }
-      res.render('searchForTags', {results: results, message: message, show: show, reload: reload});
+      res.render('searchForTags', {results: results, message: message, show: show, token: token});
 };
 
 /* GET */
-searchForTags.get('/',connect, function(req, res) {
+searchForTags.get('/', function(req, res) {
       var message = "";
       var command = "";
       var show = 'false';
-      var localReload = false;
+      token = global.__token;
       req.session.stack = [];
       req.session.cookie.expires = new Date(Date.now()+60000);
       req.session.cookie.maxAge = 60000;
       req.session.save(function(){});
       stack.clear(function(data){});
-      notasRest.getFirstNotas(function(data){
-            localReload = update;
-            update = false;
-            showData(res, message, show, data, localReload);
-            if (localReload) {
-                 localReload = false;
-            }
+      notasRest.getFirstNotas(token, function(data){
+            showData(res, message, show, data, token);
       });
 });
 
-var postOr = function(req, res){
+var postOr = function(token,req, res){
       var show = 'false';
       var message = "";
-      var localReload = false;
       var searchTags = encodeURIComponent(req.body.searchTags);
       if (req.session.stack instanceof Array){
            req.session.stack.reverse();
@@ -120,24 +90,18 @@ var postOr = function(req, res){
       req.session.save(function(err){});
       var command="";
       command = parseData(0,command);
-      notasRest.getNotasByTags(command.substring(0,command.length-1), function(data){
+      notasRest.getNotasByTags(token, command.substring(0,command.length-1), function(data){
             if (data.hasOwnProperty('message')) {
                  message = data.message;
                  show = 'true';
             }
-            localReload = update;
-            update = false;
-            showData(res, message, show, data, localReload);
-            if (localReload) {
-                  localReload = false;
-            }
+            showData(res, message, show, data, token);
       });
 };
 
-var postAnd = function(req, res){
+var postAnd = function(token,req, res){
       var show = 'false';
       var message = "";
-      var localReload = false;
       var searchTags = encodeURIComponent(req.body.searchTags);
       if (req.session.stack instanceof Array){
             req.session.stack.reverse();
@@ -153,24 +117,18 @@ var postAnd = function(req, res){
       req.session.save(function(){});
       var command = "";
       command = parseData(0,command);
-      notasRest.getNotasByTags(command.substring(0,command.length-1), function(data){
+      notasRest.getNotasByTags(token, command.substring(0,command.length-1), function(data){
            if (data.hasOwnProperty('message')) {
                  message = data.message;
                  show = 'true';
            }
-           localReload = update;
-           update = false;
-           showData(res, message, show, data, localReload);
-           if (localReload) {
-                  localReload = false;
-           }
+           showData(res, message, show, data, token);
       });
 }
 
-var postTexto = function(req,res){
+var postTexto = function(token,req,res){
       var message = "";
       var show = 'false';
-      var localReload = false;
       var searchTags = encodeURIComponent(req.body.searchTags);
       req.session.stack = [];
       req.session.cookie.expires = new Date(Date.now()+60000);
@@ -178,65 +136,57 @@ var postTexto = function(req,res){
       req.session.save(function(){});
       stack.clear(function(data){});
       if ((typeof(searchTags) != "undefined" && searchTags)){
-           notasRest.getNotasLike(searchTags, function(data){
+           notasRest.getNotasLike(token, searchTags, function(data){
                  if (data.hasOwnProperty('message')) {
                        message = data.message;
                        show = 'true';
                  }
-                 localReload = update;
-                 update = false;
-                 showData(res, message, show, data, localReload);
-                 if (localReload) {
-                      localReload = false;
-                 }
+                 showData(res, message, show, data, token);
            });
       }
 };
 
-var postNothing = function(req, res){
+var postNothing = function(token,req, res){
       var message = "";
       var show = 'false';
-      var localReload = false;
       req.session.stack = [];
       req.session.cookie.expires = new Date(Date.now()+60000);
       req.session.cookie.maxAge = 60000;
       req.session.save(function(){});
       stack.clear(function(data){});
-      notasRest.getFirstNotas(function(data){
+      notasRest.getFirstNotas(token, function(data){
            if (data.hasOwnProperty('message')) {
                  message = data.message;
                  show = 'true';
            }
-           localReload = update;
-           update = false;
-           showData(res, message, show, data, localReload);
-           if (localReload) {
-                localReload = false;
-           }
+           showData(res, message, show, data, token);
       });
 };
 
 /* POST */
-searchForTags.post('/', connect, function(req, res) {
+searchForTags.post('/', function(req, res) {
       var searchTags = req.body.searchTags;
       var button = req.body.button;
+      token = req.body.token;
+      token = tokenUtil.connect(token);
       if (button !== null) {
           var testButton = button.toUpperCase();
       }
       if (testButton === "OR" && searchTags !== ""){
-         postOr(req, res);
+         postOr(token,req, res);
       } else
       if (testButton === "AND" && searchTags !== ""){
-         postAnd(req, res);
+         postAnd(token,req, res);
       } else
       if (testButton === "TEXTO" && searchTags !== ""){
-         postTexto(req, res);
+         postTexto(token,req, res);
       } else {
-         postNothing(req,res);
+         postNothing(token,req,res);
       }
+      global.__token = token;
 });
 
-searchForTags.get('/subsearch/:value',connect, function(req, res){
+searchForTags.get('/subsearch/:value', function(req, res){
       var value = req.params.value;
       var substack = [];
       if (typeof(req.session) !== "undefined") {
@@ -251,17 +201,19 @@ searchForTags.get('/subsearch/:value',connect, function(req, res){
       req.session.cookie.expires = new Date(Date.now()+60000);
       req.session.cookie.maxAge = 60000;
       req.session.save(function(err){});
+      token = global.__token;
       if (substack[0] === "$or") {
-            postOr(req, res);
+            postOr(token,req, res);
       } else
       if (substack[0] === "$and") {
-           postAnd(req, res);
+           postAnd(token,req, res);
       } else {
          res.redirect('/index');
       }
+      global.__token = token;
 });
 
-searchForTags.post('/clean', connect, function(req, res){
+searchForTags.post('/clean', function(req, res){
       stack.clear(function(data){});
       req.session.stack = [];
       req.session.cookie.expires = new Date(Date.now()+60000);

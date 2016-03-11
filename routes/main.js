@@ -6,49 +6,25 @@ var notasRest = require('notasrest');
 var stack = require('localstack');
 var fs = require('fs');
 var netConfig = require('netconfig');
-var restler = require('restler');
-var update = false;
-var info = "";
-
-var connect = function(req,res,next){
-      fs.readFile('./userInfo', 'utf8', function(err, data){
-            info = JSON.parse(data);
-            restler.get("http://"+netConfig.getHost()+":"+netConfig.getPort()+'/notas/notas/first/1',{
-                 accessToken: info.token
-            })
-            .on('complete', function(result){
-                 if (result.message === "Token inválido!!") {
-                       restler.post("http://"+netConfig.getHost()+":"+netConfig.getPort()+'/notas/usuario/login',{
-                             data: {username: info.username, password: info.password}
-                       })
-                       .on('complete', function(result){
-                             fs.writeFileSync('./userInfo',JSON.stringify({"username": result.username, "password": "notasPJEViewer", "token": result.token}),'utf8');
-                             update = true;
-                       })
-                 }
-            });
-      });
-      next();
-}
+var tokenUtil = require('./connect');
+var token = global.__token;
 
 /* GET home page. */
-main.get('/',connect, function(req, res) {
-      var localReload = update;
-      update = false;
+main.get('/', function(req, res) {
+      token = global.__token;
       stack.clear(function(data){});
       req.session.stack = [];
       req.session.cookie.expires = new Date(Date.now()+60000);
       req.session.cookie.maxAge = 60000;
       req.session.save(function(err){});
-      res.render('index', { title: 'Notas', command: "", reload: localReload});
-      if (localReload) {
-           localReload = false;
-      }
+      res.render('index', { title: 'Notas', command: "", token: token});
 });
 
-main.get('/tags',connect, function(req, res){
+main.post('/tags', function(req, res){
+      token = req.body.token;
+      token = tokenUtil.connect(token);
       var tags = [];
-      notasRest.getTagsMapReduce(function(data){
+      notasRest.getTagsMapReduce(token, function(data){
            if ((data instanceof Array) && data.length != 0) {
                  for (var i=0; i < data.length; i++){
                        var temp = [data[i]._id , data[i].value];
@@ -57,6 +33,7 @@ main.get('/tags',connect, function(req, res){
            }
            res.send(tags);
       });
+      global.__token = token;
 });
 
 module.exports = main;
